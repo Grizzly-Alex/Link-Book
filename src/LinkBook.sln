@@ -3,9 +3,28 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{A2DDDEB8-F2B6-43DD-91FB-AD143F8779D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{B4C2C011-B4AB-4677-8430-31E65F8D4FA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkBook.Services.UrlAPI", "LinkBook.Services.UrlAPI\LinkBook.Services.UrlAPI.csproj", "{22299D49-73F8-4713-982C-8DCD94B79788}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{22299D49-73F8-4713-982C-8DCD94B79788}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22299D49-73F8-4713-982C-8DCD94B79788}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22299D49-73F8-4713-982C-8DCD94B79788}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22299D49-73F8-4713-982C-8DCD94B79788}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{22299D49-73F8-4713-982C-8DCD94B79788} = {B4C2C011-B4AB-4677-8430-31E65F8D4FA3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2D745740-662F-4076-A140-C21D556A36CE}
