@@ -6,17 +6,11 @@ namespace LinkBook.Services.UrlAPI.Data;
 
 public class AppDbContext : DbContext
 {
-    private readonly IConfiguration configuration;
     public DbSet<Link> Links { get; set; }
 
-    public AppDbContext(IConfiguration configuration)
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
             
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlServer(configuration.GetConnectionString("LinkDbConnection"));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
