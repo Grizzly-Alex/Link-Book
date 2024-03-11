@@ -1,7 +1,8 @@
-﻿using LinkBook.Services.UrlAPI.Data;
+﻿using AutoMapper;
+using LinkBook.Services.UrlAPI.Data;
 using LinkBook.Services.UrlAPI.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace LinkBook.Services.UrlAPI.Controllers;
 
@@ -10,18 +11,21 @@ namespace LinkBook.Services.UrlAPI.Controllers;
 public class LinkAPIController : ControllerBase
 {
     private readonly AppDbContext _db;
+    private IMapper _mapper;
 
-    public LinkAPIController(AppDbContext db)
+    public LinkAPIController(AppDbContext db, IMapper mapper)
     {
-        _db = db;         
+        _db = db;
+        _mapper = mapper;
     }
 
 
-    [HttpGet("get_links")]
-    public object Get(string userId)
+    [HttpGet("get-all")]
+    public object GetAll(string userId)
     {
         try
         {
+            //Get all links by user Id
             IEnumerable<Link> objList = _db.Links.Where(link => link.UserId.Equals(userId));
             return objList;
         }
@@ -30,6 +34,69 @@ public class LinkAPIController : ControllerBase
 
         }
         return null;
+    }
 
+    [HttpGet("get-favorites")]
+    public object GetFavorites(string userId)
+    {
+        try
+        {
+            //Get all links by user Id
+            IEnumerable<Link> objList = _db.Links.Where(link => link.UserId.Equals(userId) && link.Favorite);
+            return default;
+        }
+        catch (Exception ex)
+        {
+
+        }
+        return null;
+    }
+
+
+    [HttpPost]
+    public object Post([FromBody] LinkDto linkDto)
+    {
+        try
+        {
+            //Create new Link
+            Link opj = _mapper.Map<Link>(linkDto);
+
+            return default;
+        }
+        catch (Exception ex)
+        {
+
+        }
+        return null;
+    }
+
+    [HttpPut]
+    public object Put([FromBody] LinkDto linkDto)
+    {
+        try
+        {
+            //Update Link
+            return default;
+        }
+        catch (Exception ex)
+        {
+
+        }
+        return null;
+    }
+
+    [HttpDelete]
+    public object Delete(Guid linkId, string userId)
+    {
+        try
+        {
+            //Delete Link
+            return default;
+        }
+        catch (Exception ex)
+        {
+
+        }
+        return null;
     }
 }
