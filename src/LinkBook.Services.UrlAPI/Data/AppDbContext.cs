@@ -1,17 +1,11 @@
 ﻿using LinkBook.Services.UrlAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace LinkBook.Services.UrlAPI.Data;
 
-public class AppDbContext : DbContext
+public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
     public DbSet<Link> Links { get; set; }
-
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-    {
-            
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

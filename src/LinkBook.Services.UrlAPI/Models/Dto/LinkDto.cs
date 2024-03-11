@@ -1,6 +1,6 @@
 ﻿namespace LinkBook.Services.UrlAPI.Models;
 
-public class LinkDto
+public sealed class LinkDto
 {
     public string Id { get; set; }
     public string UserId { get; set; }

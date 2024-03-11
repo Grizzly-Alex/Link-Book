@@ -1,6 +1,6 @@
 ﻿namespace LinkBook.Services.UrlAPI.Models;
 
-public class Link
+public sealed class Link
 {
     public Guid Id { get; set; }
     public string UserId { get; set; }
