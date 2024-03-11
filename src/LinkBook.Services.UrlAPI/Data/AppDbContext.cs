@@ -25,5 +25,9 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
         linkModel.Property(t => t.Tag)
             .IsRequired(false)
             .HasColumnType("NVARCHAR");
+        linkModel.Property(t => t.Favorite)
+            .HasColumnType("TINYINT")
+            .IsRequired(true)
+            .HasDefaultValue(0);
     }
 }

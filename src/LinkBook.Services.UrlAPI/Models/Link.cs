@@ -7,4 +7,5 @@ public sealed class Link
     public string AliasUrl{ get; set; }
     public string OriginalUrl { get; set; }
     public string Tag { get; set; }
+    public bool Favorite { get; set; }
 }
