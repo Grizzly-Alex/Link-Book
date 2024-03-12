@@ -87,7 +87,7 @@ public class LinkAPIController : ControllerBase
         {
             //Update Link
             Link obj = _mapper.Map<Link>(linkDto);
-            await _db.Links.AddAsync(obj);
+            _db.Links.Update(obj);
             await _db.SaveChangesAsync();
             return true;
         }
