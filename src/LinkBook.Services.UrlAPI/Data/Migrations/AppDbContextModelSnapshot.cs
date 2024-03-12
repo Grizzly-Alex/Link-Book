@@ -30,23 +30,24 @@ namespace LinkBook.Services.UrlAPI.Data.Migrations
 
                     b.Property<string>("AliasUrl")
                         .IsRequired()
-                        .HasColumnType("NVARCHAR");
+                        .HasColumnType("NVARCHAR(max)");
 
                     b.Property<byte>("Favorite")
                         .ValueGeneratedOnAdd()
+                        .HasMaxLength(1)
                         .HasColumnType("TINYINT")
                         .HasDefaultValue((byte)0);
 
                     b.Property<string>("OriginalUrl")
                         .IsRequired()
-                        .HasColumnType("NVARCHAR");
+                        .HasColumnType("NVARCHAR(max)");
 
                     b.Property<string>("Tag")
-                        .HasColumnType("NVARCHAR");
+                        .HasColumnType("NVARCHAR(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("NVARCHAR");
+                        .HasColumnType("NVARCHAR(max)");
 
                     b.HasKey("Id");
 

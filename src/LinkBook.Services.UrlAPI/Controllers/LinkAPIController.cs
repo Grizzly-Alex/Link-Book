@@ -2,6 +2,7 @@
 using LinkBook.Services.UrlAPI.Data;
 using LinkBook.Services.UrlAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace LinkBook.Services.UrlAPI.Controllers;
@@ -21,12 +22,16 @@ public class LinkAPIController : ControllerBase
 
 
     [HttpGet("get-all")]
-    public object GetAll(string userId)
+    public async Task<object> GetAll(string userId)
     {
         try
         {
             //Get all links by user Id
-            IEnumerable<Link> objList = _db.Links.Where(link => link.UserId.Equals(userId));
+            List<Link> objList = await _db.Links
+                .Where(link => link.UserId.Equals(userId))
+                .OrderBy(link => link.Id)
+                .ToListAsync();
+
             return objList;
         }
         catch (Exception ex)
@@ -37,13 +42,17 @@ public class LinkAPIController : ControllerBase
     }
 
     [HttpGet("get-favorites")]
-    public object GetFavorites(string userId)
+    public async Task<object> GetFavorites(string userId)
     {
         try
         {
             //Get all links by user Id
-            IEnumerable<Link> objList = _db.Links.Where(link => link.UserId.Equals(userId) && link.Favorite);
-            return default;
+            List <Link> objList = await _db.Links
+                .Where(link => link.UserId.Equals(userId) && link.Favorite)
+                .OrderBy(link => link.Id)
+                .ToListAsync();
+
+            return objList;
         }
         catch (Exception ex)
         {
@@ -54,29 +63,33 @@ public class LinkAPIController : ControllerBase
 
 
     [HttpPost]
-    public object Post([FromBody] LinkDto linkDto)
+    public async Task<object> Post([FromBody] LinkDto linkDto)
     {
         try
         {
             //Create new Link
-            Link opj = _mapper.Map<Link>(linkDto);
-
-            return default;
+            Link obj = _mapper.Map<Link>(linkDto);
+            await _db.Links.AddAsync(obj);
+            await _db.SaveChangesAsync();
+            return true;
         }
         catch (Exception ex)
         {
 
         }
-        return null;
+        return false;
     }
 
     [HttpPut]
-    public object Put([FromBody] LinkDto linkDto)
+    public async Task<object> Put([FromBody] LinkDto linkDto)
     {
         try
         {
             //Update Link
-            return default;
+            Link obj = _mapper.Map<Link>(linkDto);
+            await _db.Links.AddAsync(obj);
+            await _db.SaveChangesAsync();
+            return true;
         }
         catch (Exception ex)
         {
@@ -86,12 +99,15 @@ public class LinkAPIController : ControllerBase
     }
 
     [HttpDelete]
-    public object Delete(Guid linkId, string userId)
+    public async Task<object> Delete(Guid linkId)
     {
         try
         {
             //Delete Link
-            return default;
+            Link obj = await _db.Links.FirstAsync(link => link.Id.Equals(linkId));
+            _db.Remove(obj);
+            await _db.SaveChangesAsync();
+            return true;
         }
         catch (Exception ex)
         {

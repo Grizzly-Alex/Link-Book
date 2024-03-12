@@ -16,10 +16,11 @@ namespace LinkBook.Services.UrlAPI.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "UNIQUEIDENTIFIER", nullable: false),
-                    UserId = table.Column<string>(type: "NVARCHAR", nullable: false),
-                    AliasUrl = table.Column<string>(type: "NVARCHAR", nullable: false),
-                    OriginalUrl = table.Column<string>(type: "NVARCHAR", nullable: false),
-                    Tag = table.Column<string>(type: "NVARCHAR", nullable: true)
+                    UserId = table.Column<string>(type: "NVARCHAR(max)", nullable: false),
+                    AliasUrl = table.Column<string>(type: "NVARCHAR(max)", nullable: false),
+                    OriginalUrl = table.Column<string>(type: "NVARCHAR(max)", nullable: false),
+                    Tag = table.Column<string>(type: "NVARCHAR(max)", nullable: true),
+                    Favorite = table.Column<byte>(type: "TINYINT", maxLength: 1, nullable: false, defaultValue: (byte)0)
                 },
                 constraints: table =>
                 {
