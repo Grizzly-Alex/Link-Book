@@ -22,59 +22,55 @@ public class LinkAPIController : ControllerBase
 
 
     [HttpGet("get-all/{userId}")]
-    public async Task<object> GetAll(string userId)
+    public async Task<IActionResult> GetAll(string userId)
     {      
-        //Get all links by user Id
         List<Link> objList = await _db.Links
             .Where(link => link.UserId.Equals(userId))
             .OrderBy(link => link.Id)
             .ToListAsync();
 
-        return objList;
+        return objList.Any() ? Ok(objList) : NotFound(objList);
     }
 
     [HttpGet("get-favorites/{userId}")]
-    public async Task<object> GetFavorites(string userId)
+    public async Task<IActionResult> GetFavorites(string userId)
     {
-
-        //Get all links by user Id
-        List <Link> objList = await _db.Links
+        var objList = await _db.Links
             .Where(link => link.UserId.Equals(userId) && link.Favorite)
             .OrderBy(link => link.Id)
             .ToListAsync();
 
-        return objList;
+        return objList.Any() ? Ok(objList) : NotFound(objList);
 
     }
 
     [HttpPost]
-    public async Task<object> Post([FromBody] LinkDto linkDto)
+    public async Task<IActionResult> Post([FromBody] LinkDto linkDto, CancellationToken token)
     {
-        //Create new Link
         Link obj = _mapper.Map<Link>(linkDto);
         await _db.Links.AddAsync(obj);
-        await _db.SaveChangesAsync();
-        return true;
+        await _db.SaveChangesAsync(token);
 
+        return Ok();
     }
 
     [HttpPut]
-    public async Task<object> Put([FromBody] LinkDto linkDto)
+    public async Task<IActionResult> Put([FromBody] LinkDto linkDto, CancellationToken token)
     {
-        //Update Link
         Link obj = _mapper.Map<Link>(linkDto);
         _db.Links.Update(obj);
-        await _db.SaveChangesAsync();
-        return true;       
+        await _db.SaveChangesAsync(token);
+
+        return Ok();
     }
 
-    [HttpDelete("{linkId}")]
-    public async Task<object> Delete(Guid linkId)
+    [HttpDelete("{linkId:guid}")]
+    public async Task<IActionResult> Delete(Guid linkId, CancellationToken token)
     {
-        //Delete Link
         Link obj = await _db.Links.FirstAsync(link => link.Id.Equals(linkId));
         _db.Remove(obj);
-        await _db.SaveChangesAsync();
-        return true;
+        await _db.SaveChangesAsync(token);
+
+        return Ok();
     }
 }
