@@ -21,98 +21,60 @@ public class LinkAPIController : ControllerBase
     }
 
 
-    [HttpGet("get-all")]
+    [HttpGet("get-all/{userId}")]
     public async Task<object> GetAll(string userId)
-    {
-        try
-        {
-            //Get all links by user Id
-            List<Link> objList = await _db.Links
-                .Where(link => link.UserId.Equals(userId))
-                .OrderBy(link => link.Id)
-                .ToListAsync();
+    {      
+        //Get all links by user Id
+        List<Link> objList = await _db.Links
+            .Where(link => link.UserId.Equals(userId))
+            .OrderBy(link => link.Id)
+            .ToListAsync();
 
-            return objList;
-        }
-        catch (Exception ex)
-        {
-
-        }
-        return null;
+        return objList;
     }
 
-    [HttpGet("get-favorites")]
+    [HttpGet("get-favorites/{userId}")]
     public async Task<object> GetFavorites(string userId)
     {
-        try
-        {
-            //Get all links by user Id
-            List <Link> objList = await _db.Links
-                .Where(link => link.UserId.Equals(userId) && link.Favorite)
-                .OrderBy(link => link.Id)
-                .ToListAsync();
 
-            return objList;
-        }
-        catch (Exception ex)
-        {
+        //Get all links by user Id
+        List <Link> objList = await _db.Links
+            .Where(link => link.UserId.Equals(userId) && link.Favorite)
+            .OrderBy(link => link.Id)
+            .ToListAsync();
 
-        }
-        return null;
+        return objList;
+
     }
-
 
     [HttpPost]
     public async Task<object> Post([FromBody] LinkDto linkDto)
     {
-        try
-        {
-            //Create new Link
-            Link obj = _mapper.Map<Link>(linkDto);
-            await _db.Links.AddAsync(obj);
-            await _db.SaveChangesAsync();
-            return true;
-        }
-        catch (Exception ex)
-        {
+        //Create new Link
+        Link obj = _mapper.Map<Link>(linkDto);
+        await _db.Links.AddAsync(obj);
+        await _db.SaveChangesAsync();
+        return true;
 
-        }
-        return false;
     }
 
     [HttpPut]
     public async Task<object> Put([FromBody] LinkDto linkDto)
     {
-        try
-        {
-            //Update Link
-            Link obj = _mapper.Map<Link>(linkDto);
-            _db.Links.Update(obj);
-            await _db.SaveChangesAsync();
-            return true;
-        }
-        catch (Exception ex)
-        {
-
-        }
-        return null;
+        //Update Link
+        Link obj = _mapper.Map<Link>(linkDto);
+        _db.Links.Update(obj);
+        await _db.SaveChangesAsync();
+        return true;       
     }
 
-    [HttpDelete]
+    [HttpDelete("{linkId}")]
     public async Task<object> Delete(Guid linkId)
     {
-        try
-        {
-            //Delete Link
-            Link obj = await _db.Links.FirstAsync(link => link.Id.Equals(linkId));
-            _db.Remove(obj);
-            await _db.SaveChangesAsync();
-            return true;
-        }
-        catch (Exception ex)
-        {
-
-        }
-        return null;
+        //Delete Link
+        Link obj = await _db.Links.FirstAsync(link => link.Id.Equals(linkId));
+        _db.Remove(obj);
+        await _db.SaveChangesAsync();
+        return true;
     }
 }
