@@ -1,6 +1,6 @@
 ﻿namespace Link.Core.Entities;
 
-public sealed class Link : BaseEntity
+public sealed class UserLink : BaseEntity
 {
     public string UserId { get; set; }
     public string AliasUrl{ get; set; }
