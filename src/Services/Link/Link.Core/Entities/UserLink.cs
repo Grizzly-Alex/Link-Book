@@ -2,9 +2,9 @@
 
 public sealed class UserLink : BaseEntity
 {
-    public string UserId { get; set; }
-    public string AliasUrl{ get; set; }
-    public string OriginalUrl { get; set; }
-    public string Tag { get; set; }
-    public bool Favorite { get; set; }
+    public required string UserId { get; init; }
+    public required string AliasUrl { get; init; }
+    public required string OriginalUrl { get; init; }
+    public string? Tag { get; init; }
+    public bool Favorite { get; init; }
 }
