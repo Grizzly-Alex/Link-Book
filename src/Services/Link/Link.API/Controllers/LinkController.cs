@@ -3,25 +3,26 @@ using LinkBook.Services.UrlAPI.Data;
 using LinkBook.Services.UrlAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+
 
 namespace LinkBook.Services.UrlAPI.Controllers;
 
-[Route("api/link")]
-[ApiController]
-public class LinkAPIController : ControllerBase
+
+public class LinkController : ApiController
 {
     private readonly AppDbContext _db;
     private IMapper _mapper;
 
-    public LinkAPIController(AppDbContext db, IMapper mapper)
+
+    public LinkController(AppDbContext db, IMapper mapper)
     {
         _db = db;
         _mapper = mapper;
     }
 
 
-    [HttpGet("get-all/{userId}")]
+    [HttpGet]
+    [Route("all/{userId}")]
     public async Task<IActionResult> GetAll(string userId)
     {      
         List<Link> objList = await _db.Links
@@ -29,10 +30,11 @@ public class LinkAPIController : ControllerBase
             .OrderBy(link => link.Id)
             .ToListAsync();
 
-        return objList.Any() ? Ok(objList) : NotFound(objList);
+        return objList.Any() ? Ok(objList) : NotFound();
     }
 
-    [HttpGet("get-favorites/{userId}")]
+    [HttpGet]
+    [Route("favorites/{userId}")]
     public async Task<IActionResult> GetFavorites(string userId)
     {
         var objList = await _db.Links
@@ -45,26 +47,37 @@ public class LinkAPIController : ControllerBase
     }
 
     [HttpPost]
+    [Route("create")]
     public async Task<IActionResult> Post([FromBody] LinkDto linkDto, CancellationToken token)
     {
-        Link obj = _mapper.Map<Link>(linkDto);
-        await _db.Links.AddAsync(obj);
-        await _db.SaveChangesAsync(token);
+        if (ModelState.IsValid) 
+        {
+            await _db.Links.AddAsync(_mapper.Map<Link>(linkDto), token);
+            await _db.SaveChangesAsync(token);
 
-        return Ok();
+            return Ok();
+        }
+
+        return BadRequest();
     }
 
     [HttpPut]
+    [Route("update")]
     public async Task<IActionResult> Put([FromBody] LinkDto linkDto, CancellationToken token)
     {
-        Link obj = _mapper.Map<Link>(linkDto);
-        _db.Links.Update(obj);
-        await _db.SaveChangesAsync(token);
+        if (ModelState.IsValid)
+        {
+            _db.Links.Update(_mapper.Map<Link>(linkDto));
+            await _db.SaveChangesAsync(token);
 
-        return Ok();
+            return Ok();
+        }
+
+        return BadRequest();
     }
 
-    [HttpDelete("{linkId:guid}")]
+    [HttpDelete]
+    [Route("delete/{linkId:guid}")]
     public async Task<IActionResult> Delete(Guid linkId, CancellationToken token)
     {
         Link obj = await _db.Links.FirstAsync(link => link.Id.Equals(linkId));

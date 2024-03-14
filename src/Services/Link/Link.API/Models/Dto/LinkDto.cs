@@ -5,5 +5,5 @@ public record class LinkDto(
     string UserId,
     string AliasUrl,
     string OriginalUrl,
-    string Tag,
+    string? Tag,
     bool Favorite);
