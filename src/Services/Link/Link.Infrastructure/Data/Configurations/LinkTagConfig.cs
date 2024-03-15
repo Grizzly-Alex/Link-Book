@@ -8,6 +8,13 @@ public class LinkTagConfig : IEntityTypeConfiguration<LinkTag>
 {
     public void Configure(EntityTypeBuilder<LinkTag> builder)
     {
-        throw new NotImplementedException();
+        builder.ToTable("Tags").HasKey(t => t.Id);
+        builder.Property(t => t.Id).HasColumnType("UNIQUEIDENTIFIER");
+        builder.Property(t => t.UserId)
+            .IsRequired(true)
+            .HasColumnType("NVARCHAR(max)");
+        builder.Property(t => t.Name)
+            .IsRequired(true)
+            .HasColumnType("NVARCHAR(50)");
     }
 }

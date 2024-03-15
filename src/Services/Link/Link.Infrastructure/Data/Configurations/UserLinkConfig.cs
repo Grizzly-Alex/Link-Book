@@ -20,13 +20,15 @@ public class UserLinkConfig : IEntityTypeConfiguration<UserLink>
         builder.Property(t => t.OriginalUrl)
             .IsRequired(true)
             .HasColumnType("NVARCHAR(max)");
-        builder.Property(t => t.Tag)
-            .IsRequired(false)
-            .HasColumnType("NVARCHAR(max)");
         builder.Property(t => t.Favorite)
             .HasColumnType("TINYINT")
             .IsRequired(true)
             .HasMaxLength(1)
             .HasDefaultValue(0);
+        builder.HasOne(p => p.Tag)
+            .WithMany()
+            .HasForeignKey(p => p.TagId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

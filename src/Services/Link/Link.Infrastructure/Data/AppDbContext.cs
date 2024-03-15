@@ -2,11 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
-namespace LinkBook.Services.UrlAPI.Data;
+namespace Link.Infrastructure.Data;
 
 public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
     public DbSet<UserLink> Links { get; set; }
+    public DbSet<LinkTag> Tags { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
