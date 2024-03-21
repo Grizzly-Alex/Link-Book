@@ -8,4 +8,17 @@ public sealed class UserLink : BaseEntity<Guid>
     public bool Favorite { get; init; }
     public Guid TagId { get; init; }
     public LinkTag Tag { get; init; }
+
+    public UserLink()
+    {          
+    }
+
+    public UserLink(string userId, string aliasUrl, string originalUrl,bool favorite, Guid tagId)
+    {
+        UserId = userId;
+        AliasUrl = aliasUrl;
+        OriginalUrl = originalUrl;
+        Favorite = favorite;
+        TagId = tagId;           
+    }
 }
