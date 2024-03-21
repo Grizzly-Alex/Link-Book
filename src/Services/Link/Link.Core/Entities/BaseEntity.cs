@@ -1,6 +1,9 @@
-﻿namespace Link.Core.Entities;
+﻿using Link.Core.Interfaces;
 
-public abstract class BaseEntity
+
+namespace Link.Core.Entities;
+
+public abstract class BaseEntity<T> : IAggregateRoot
 {
-    public required Guid Id { get; init; }
+    public required T Id { get; init; }
 }
