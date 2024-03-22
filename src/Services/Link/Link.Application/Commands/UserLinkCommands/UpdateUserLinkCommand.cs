@@ -1,11 +1,11 @@
 ﻿using Link.Core.Entities;
 using MediatR;
 
-namespace Link.Application.Commands;
+namespace Link.Application.Commands.UserLinkCommands;
 
-public sealed class CreateUserLinkCommand : IRequest<UserLink>
+public sealed class UpdateUserLinkCommand : IRequest<UserLink>
 {
-    public string UserId { get; set; }  
+    public Guid Id { get; set; }
     public string AliasUrl { get; set; }
     public string OriginalUrl { get; set; }
     public bool Favorite { get; set; }
