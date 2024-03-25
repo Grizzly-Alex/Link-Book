@@ -1,10 +1,11 @@
 ﻿using Link.Core.Entities;
 using Link.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace Link.Infrastructure.Data;
 
-public class SeedData(AppDbContext dbContext) : IDbInitializer
+public sealed class ContextSeed(AppDbContext dbContext) : IDbInitializer
 {
     private readonly AppDbContext _dbContext = dbContext;
 
@@ -17,18 +18,16 @@ public class SeedData(AppDbContext dbContext) : IDbInitializer
 
         if (!await _dbContext.Tags.AnyAsync())
         {
-            await _dbContext.Tags.AddRangeAsync(GetTags());
+            await _dbContext.Tags.AddRangeAsync(GetTags()!);
             await _dbContext.SaveChangesAsync();
         }
     }
 
     private IEnumerable<LinkTag> GetTags()
     {
-        return new List<LinkTag>
-        {
-            new (string.Empty, "Social Networks"),
-            new (string.Empty, "Forums"),
-            new (string.Empty, "Mails"),
-        };
+        string path = Path.Combine("Data", "SeedData", "tags.json");
+        string tagsData = File.ReadAllText(path);
+
+        return string.IsNullOrEmpty(tagsData) ? [] : JsonSerializer.Deserialize<List<LinkTag>>(tagsData);
     }
 }
