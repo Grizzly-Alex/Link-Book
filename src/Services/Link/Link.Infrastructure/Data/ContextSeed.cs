@@ -23,11 +23,11 @@ public sealed class ContextSeed(AppDbContext dbContext) : IDbInitializer
         }
     }
 
-    private IEnumerable<LinkTag> GetTags()
+    private IEnumerable<LinkCategory> GetTags()
     {
-        string path = Path.Combine("Data", "SeedData", "tags.json");
-        string tagsData = File.ReadAllText(path);
+        string path = Path.Combine("Data", "SeedData", "categories.json");
+        string categoriesData = File.ReadAllText(path);
 
-        return string.IsNullOrEmpty(tagsData) ? [] : JsonSerializer.Deserialize<List<LinkTag>>(tagsData);
+        return string.IsNullOrEmpty(categoriesData) ? [] : JsonSerializer.Deserialize<List<LinkCategory>>(categoriesData);
     }
 }

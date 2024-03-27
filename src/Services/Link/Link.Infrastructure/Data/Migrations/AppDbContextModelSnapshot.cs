@@ -22,7 +22,7 @@ namespace Link.Infrastructure.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Link.Core.Entities.LinkTag", b =>
+            modelBuilder.Entity("Link.Core.Entities.LinkCategory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -38,7 +38,7 @@ namespace Link.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags", (string)null);
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Link.Core.Entities.UserLink", b =>
@@ -51,6 +51,9 @@ namespace Link.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("NVARCHAR(max)");
 
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("UNIQUEIDENTIFIER");
+
                     b.Property<byte>("Favorite")
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(1)
@@ -61,28 +64,25 @@ namespace Link.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("NVARCHAR(max)");
 
-                    b.Property<Guid>("TagId")
-                        .HasColumnType("UNIQUEIDENTIFIER");
-
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("NVARCHAR(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TagId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Links", (string)null);
                 });
 
             modelBuilder.Entity("Link.Core.Entities.UserLink", b =>
                 {
-                    b.HasOne("Link.Core.Entities.LinkTag", "Tag")
+                    b.HasOne("Link.Core.Entities.LinkCategory", "Category")
                         .WithMany()
-                        .HasForeignKey("TagId")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("Tag");
+                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

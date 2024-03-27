@@ -8,7 +8,7 @@ namespace Link.Infrastructure.Data;
 public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
     public DbSet<UserLink> Links { get; set; }
-    public DbSet<LinkTag> Tags { get; set; }
+    public DbSet<LinkCategory> Tags { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

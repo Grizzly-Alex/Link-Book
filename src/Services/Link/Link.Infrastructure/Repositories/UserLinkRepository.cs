@@ -29,7 +29,7 @@ public class UserLinkRepository : IRepository<UserLink>
         CancellationToken token = default)
     {
         var query = _linkTableDb.AsNoTracking()
-            .Include(i => i.Tag)
+            .Include(i => i.Category)
             .Where(predicate);
 
         return orderBy is not null
@@ -47,7 +47,7 @@ public class UserLinkRepository : IRepository<UserLink>
     {
         var rowsUpdated = await _linkTableDb.Where(item => item.Id == entity.Id)
             .ExecuteUpdateAsync(updates => 
-                updates.SetProperty(item => item.TagId, entity.TagId)
+                updates.SetProperty(item => item.CategoryId, entity.CategoryId)
                 .SetProperty(item => item.AliasUrl, entity.AliasUrl)
                 .SetProperty(item => item.OriginalUrl, entity.OriginalUrl)
                 .SetProperty(item => item.Favorite, entity.Favorite),

@@ -6,20 +6,25 @@ using MediatR;
 
 namespace Link.Application.Handlers.LinkTagHandlers;
 
-public sealed class CreateLinkTagCommandHandler : IRequestHandler<CreateLinkTagCommand, LinkTag>
+public sealed class CreateLinkTagCommandHandler : IRequestHandler<CreateLinkTagCommand, LinkCategory>
 {
-    private readonly IRepository<LinkTag> _repository;
+    private readonly IRepository<LinkCategory> _repository;
     private readonly IMapper _mapper;
 
-    public CreateLinkTagCommandHandler(IRepository<LinkTag> repository, IMapper mapper)
+    public CreateLinkTagCommandHandler(IRepository<LinkCategory> repository, IMapper mapper)
     {
         _repository = repository;
         _mapper = mapper;           
     }
 
-    public async Task<LinkTag> Handle(CreateLinkTagCommand request, CancellationToken cancellationToken)
+    public Task<LinkCategory> Handle(CreateLinkTagCommand request, CancellationToken cancellationToken)
     {
-        LinkTag linkTag = _mapper.Map<LinkTag>(request);
-        await _repository.Create(linkTag, cancellationToken);
+        throw new NotImplementedException();
     }
+
+    //public async Task<LinkCategory> Handle(CreateLinkTagCommand request, CancellationToken cancellationToken)
+    //{
+    //    LinkCategory linkTag = _mapper.Map<LinkCategory>(request);
+    //    await _repository.Create(linkTag, cancellationToken);
+    //}
 }

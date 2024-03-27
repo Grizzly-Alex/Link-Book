@@ -25,9 +25,9 @@ public class UserLinkConfig : IEntityTypeConfiguration<UserLink>
             .IsRequired(true)
             .HasMaxLength(1)
             .HasDefaultValue(0);
-        builder.HasOne(p => p.Tag)
+        builder.HasOne(p => p.Category)
             .WithMany()
-            .HasForeignKey(p => p.TagId)
+            .HasForeignKey(p => p.CategoryId)
             .IsRequired(false)
             .OnDelete(DeleteBehavior.Restrict);
     }

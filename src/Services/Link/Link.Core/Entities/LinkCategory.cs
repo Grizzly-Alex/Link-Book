@@ -1,15 +1,15 @@
 ﻿namespace Link.Core.Entities;
 
-public sealed class LinkTag : BaseEntity<Guid>
+public sealed class LinkCategory : BaseEntity<Guid>
 {
     public string UserId { get; init; }
     public string Name { get; init; }
 
-    public LinkTag()
+    public LinkCategory()
     {            
     }
 
-    public LinkTag(string userId, string name)
+    public LinkCategory(string userId, string name)
     {
         UserId = userId;
         Name = name;

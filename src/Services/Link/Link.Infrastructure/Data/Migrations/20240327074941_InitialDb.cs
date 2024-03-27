@@ -12,7 +12,7 @@ namespace Link.Infrastructure.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Tags",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "UNIQUEIDENTIFIER", nullable: false),
@@ -21,7 +21,7 @@ namespace Link.Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tags", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -33,23 +33,23 @@ namespace Link.Infrastructure.Data.Migrations
                     AliasUrl = table.Column<string>(type: "NVARCHAR(max)", nullable: false),
                     OriginalUrl = table.Column<string>(type: "NVARCHAR(max)", nullable: false),
                     Favorite = table.Column<byte>(type: "TINYINT", maxLength: 1, nullable: false, defaultValue: (byte)0),
-                    TagId = table.Column<Guid>(type: "UNIQUEIDENTIFIER", nullable: false)
+                    CategoryId = table.Column<Guid>(type: "UNIQUEIDENTIFIER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Links", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Links_Tags_TagId",
-                        column: x => x.TagId,
-                        principalTable: "Tags",
+                        name: "FK_Links_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Links_TagId",
+                name: "IX_Links_CategoryId",
                 table: "Links",
-                column: "TagId");
+                column: "CategoryId");
         }
 
         /// <inheritdoc />
@@ -59,7 +59,7 @@ namespace Link.Infrastructure.Data.Migrations
                 name: "Links");
 
             migrationBuilder.DropTable(
-                name: "Tags");
+                name: "Categories");
         }
     }
 }

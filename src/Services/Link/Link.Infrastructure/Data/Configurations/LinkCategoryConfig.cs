@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Link.Infrastructure.Data.Configurations;
 
-public class LinkTagConfig : IEntityTypeConfiguration<LinkTag>
+public class LinkCategoryConfig : IEntityTypeConfiguration<LinkCategory>
 {
-    public void Configure(EntityTypeBuilder<LinkTag> builder)
+    public void Configure(EntityTypeBuilder<LinkCategory> builder)
     {
-        builder.ToTable("Tags").HasKey(t => t.Id);
+        builder.ToTable("Categories").HasKey(t => t.Id);
         builder.Property(t => t.Id).HasColumnType("UNIQUEIDENTIFIER");
         builder.Property(t => t.UserId)
             .IsRequired(true)
