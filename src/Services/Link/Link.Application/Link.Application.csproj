@@ -15,4 +15,9 @@
     <ProjectReference Include="..\Link.Core\Link.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Handlers\UserLinkHandlers\" />
+    <Folder Include="Queries\UserLinkQueries\" />
+  </ItemGroup>
+
 </Project>

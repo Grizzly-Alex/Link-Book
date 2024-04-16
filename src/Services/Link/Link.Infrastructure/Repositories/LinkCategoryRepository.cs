@@ -42,6 +42,7 @@ public class LinkCategoryRepository : IRepository<LinkCategory>
         
         return entityFromDb.Entity is not null;
     }
+
     public async Task<bool> Update(LinkCategory entity, CancellationToken token = default)
     {
         var rowsUpdated = await _categoriesTableDb.Where(item => item.Id == entity.Id)

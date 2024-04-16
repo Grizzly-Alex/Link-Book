@@ -1,6 +1,6 @@
 ﻿namespace Link.Application.Responses;
 
-public sealed class LinkTagResponse
+public sealed class LinkCategoryResponse
 {
     public Guid Id { get; set; }
     public string Name { get; set; }    
