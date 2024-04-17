@@ -16,8 +16,14 @@ public sealed class DeleteLinkCategoryHandler : IRequestHandler<DeleteLinkCatego
 
     public async Task<bool> Handle(DeleteLinkCategoryQuery request, CancellationToken cancellationToken)
     {
+
         var linkCategory = await _repository.Get(category => category.Id == request.Id, token: cancellationToken);
 
-        return linkCategory is not null && await _repository.Delete(linkCategory, cancellationToken);
+        if (linkCategory is null)
+        {
+            return false;
+        }
+
+        return await _repository.Delete(linkCategory, cancellationToken);
     }
 }

@@ -6,18 +6,18 @@ using MediatR;
 
 namespace Link.Application.Handlers.LinkCategoryHandlers;
 
-public sealed class CreateLinkCategoryHandler : IRequestHandler<CreateLinkCategoryCommand, bool>
+public sealed class UpdateLinkCategoryHandler : IRequestHandler<UpdateLinkCategoryCommand, bool>
 {
     private readonly IRepository<LinkCategory> _repository;
     private readonly IMapper _mapper;
 
-    public CreateLinkCategoryHandler(IRepository<LinkCategory> repository, IMapper mapper)
+    public UpdateLinkCategoryHandler(IRepository<LinkCategory> repository, IMapper mapper)
     {
         _repository = repository;
         _mapper = mapper;           
     }
 
-    public async Task<bool> Handle(CreateLinkCategoryCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(UpdateLinkCategoryCommand request, CancellationToken cancellationToken)
     {
         var linkCategory = _mapper.Map<LinkCategory>(request);
 
@@ -26,6 +26,6 @@ public sealed class CreateLinkCategoryHandler : IRequestHandler<CreateLinkCatego
             return false;
         }
 
-        return await _repository.Create(linkCategory, cancellationToken);
+        return await _repository.Update(linkCategory, cancellationToken);
     }
 }
