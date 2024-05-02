@@ -9,5 +9,5 @@ public sealed class CreateUserLinkCommand : IRequest<UserLink>
     public string AliasUrl { get; set; }
     public string OriginalUrl { get; set; }
     public bool Favorite { get; set; }
-    public Guid TagId { get; set; }
+    public Guid CategoryId { get; set; }
 }

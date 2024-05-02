@@ -2,8 +2,4 @@
 
 namespace Link.Application.Commands.LinkTagCommands;
 
-public sealed class CreateLinkCategoryCommand(string userId, string name) : IRequest<bool>
-{
-    public string UserId { get; set; } = userId;
-    public string Name { get; set; } = name;
-}
+public record class CreateLinkCategoryCommand(string UserId, string Name) : IRequest<bool>;
