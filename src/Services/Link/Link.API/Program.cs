@@ -1,19 +1,14 @@
-using Link.API.Utility;
+using Link.API.Utilities;
 using Link.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Link.API.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddTransient<ExceptionHandler>();
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddAllAppServices();
+builder.Services.AddAppDb(builder.Configuration.GetConnectionString("LinkDbConnection"));
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("LinkDbConnection"));
-});
+
 
 var app = builder.Build();
 
@@ -23,6 +18,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.ApplyMigrations();//add logger
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseMiddleware<ExceptionHandler>();

@@ -2,7 +2,7 @@
 using System.Net;
 
 
-namespace Link.API.Utility;
+namespace Link.API.Utilities;
 
 public sealed class ExceptionHandler : IMiddleware
 {

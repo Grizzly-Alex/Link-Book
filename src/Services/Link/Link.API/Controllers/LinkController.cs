@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
+using Link.Application.Queries.LinkCategoryQueries;
+using Link.Application.Responses;
 using Link.Core.Entities;
 using Link.Infrastructure.Data;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 
 namespace LinkBook.Services.UrlAPI.Controllers;
@@ -10,14 +14,34 @@ namespace LinkBook.Services.UrlAPI.Controllers;
 
 public class LinkController : ApiController
 {
-    private readonly AppDbContext _db;
-    private IMapper _mapper;
+    private readonly IMediator _mediator;
+    private readonly ILogger<LinkController> _logger;
 
-
-    public LinkController(AppDbContext db, IMapper mapper)
+    public LinkController(IMediator mediator, ILogger<LinkController> logger)
     {
-        _db = db;
-        _mapper = mapper;
+        _mediator = mediator;
+        _logger = logger;          
+    }
+
+    [HttpGet]
+    [Route("[action]/{userId}", Name = "get-categories-by-user-id")]
+    [ProducesResponseType(typeof(IEnumerable<LinkCategoryResponse>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    public async Task<ActionResult<IEnumerable<LinkCategoryResponse>>> GetCategories(string userId)
+    {
+        try
+        {
+            var query = new GetAllLinkCategoriesByUserQuery(userId);
+            var result = await _mediator.Send(query);
+            _logger.LogInformation("All products retrieved");
+            return Ok(result);
+
+        }
+        catch (Exception ex) 
+        {
+            _logger.LogError(ex, "An Exception has occured: {Exception}");
+            throw;
+        }    
     }
 
 

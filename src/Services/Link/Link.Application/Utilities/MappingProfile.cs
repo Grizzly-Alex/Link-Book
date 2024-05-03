@@ -16,8 +16,8 @@ public sealed class MappingProfile : Profile
         #endregion
 
         #region UserLink
-        CreateMap<LinkCategoryResponse, UserLink>().ReverseMap()
-            .ForMember(model => model.TagName, opt => opt.MapFrom(model => model.Category.Name));
+        CreateMap<UserLinkResponse, UserLink>().ReverseMap()
+            .ForMember(model => model.Category, opt => opt.MapFrom(model => model.Category.Name));
         #endregion
     }
 }
