@@ -1,11 +1,8 @@
-﻿using AutoMapper;
+﻿using Link.Application.Commands.LinkTagCommands;
 using Link.Application.Queries.LinkCategoryQueries;
 using Link.Application.Responses;
-using Link.Core.Entities;
-using Link.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 
@@ -15,12 +12,10 @@ namespace LinkBook.Services.UrlAPI.Controllers;
 public class LinkController : ApiController
 {
     private readonly IMediator _mediator;
-    private readonly ILogger<LinkController> _logger;
 
-    public LinkController(IMediator mediator, ILogger<LinkController> logger)
+    public LinkController(IMediator mediator)
     {
         _mediator = mediator;
-        _logger = logger;          
     }
 
     [HttpGet]
@@ -29,19 +24,22 @@ public class LinkController : ApiController
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<ActionResult<IEnumerable<LinkCategoryResponse>>> GetCategories(string userId)
     {
-        try
-        {
-            var query = new GetAllLinkCategoriesByUserQuery(userId);
-            var result = await _mediator.Send(query);
-            _logger.LogInformation("All products retrieved");
-            return Ok(result);
 
-        }
-        catch (Exception ex) 
-        {
-            _logger.LogError(ex, "An Exception has occured: {Exception}");
-            throw;
-        }    
+        var query = new GetAllLinkCategoriesByUserQuery(userId);
+        var result = await _mediator.Send(query);
+        return Ok(result);
+
+    }
+
+    [HttpPost]
+    [Route("create-category")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+
+    public async Task<ActionResult<bool>> CreateCategory([FromBody] CreateLinkCategoryCommand categoryCommand)
+    {
+        var result = await _mediator.Send(categoryCommand);
+        return Ok(result);
     }
 
 

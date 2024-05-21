@@ -1,7 +1,7 @@
 ﻿using Link.Core.Interfaces;
 using Link.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+
 
 namespace Link.API.Configurations;
 
@@ -11,23 +11,18 @@ public static class ConfigureDb
     {
         services.AddDbContext<AppDbContext>(options =>
         {
-            options.UseSqlServer(connectionString);
+            options.UseSqlServer(connectionString);            
         });
+        
         return services;
     }
 
-    public static async Task ApplyMigrations(this WebApplication app, ILogger logger)
+    public static void ApplyMigrations(this IServiceProvider serviceProvider)
     {
-        using var scope = app.Services.CreateScope();
-
-        try
+        using (var scope = serviceProvider.CreateScope())
         {
-            await scope.ServiceProvider.GetRequiredService<IDbInitializer>().Initialize();
+            scope.ServiceProvider.GetRequiredService<IDbInitializer>().Initialize();
 
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "An error occurred initializing the DB.");
         }
     }
 }

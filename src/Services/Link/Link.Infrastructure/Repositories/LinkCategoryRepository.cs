@@ -9,9 +9,11 @@ namespace Link.Infrastructure.Repositories;
 public class LinkCategoryRepository : IRepository<LinkCategory>
 {
     private readonly DbSet<LinkCategory> _categoriesTableDb;
+    private readonly AppDbContext _appDbContext;
 
     public LinkCategoryRepository(AppDbContext context)
     {
+        _appDbContext = context;
         _categoriesTableDb = context.Set<LinkCategory>();
     }
 
@@ -39,7 +41,8 @@ public class LinkCategoryRepository : IRepository<LinkCategory>
     public async Task<bool> Create(LinkCategory entity, CancellationToken token = default)
     {
         var entityFromDb = await _categoriesTableDb.AddAsync(entity, token);
-        
+        await _appDbContext.SaveChangesAsync();
+
         return entityFromDb.Entity is not null;
     }
 

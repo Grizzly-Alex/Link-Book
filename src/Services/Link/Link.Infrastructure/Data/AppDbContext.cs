@@ -1,5 +1,4 @@
 ﻿using Link.Core.Entities;
-using Link.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 

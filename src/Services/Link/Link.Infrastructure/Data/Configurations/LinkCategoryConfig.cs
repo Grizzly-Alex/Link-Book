@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+
 namespace Link.Infrastructure.Data.Configurations;
 
 public class LinkCategoryConfig : IEntityTypeConfiguration<LinkCategory>
