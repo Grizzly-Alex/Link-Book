@@ -18,94 +18,57 @@ public class LinkController : ApiController
         _mediator = mediator;
     }
 
+
     [HttpGet]
     [Route("[action]/{userId}", Name = "get-categories-by-user-id")]
     [ProducesResponseType(typeof(IEnumerable<LinkCategoryResponse>), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType(typeof(IEnumerable<LinkCategoryResponse>), (int)HttpStatusCode.NotFound)]
     public async Task<ActionResult<IEnumerable<LinkCategoryResponse>>> GetCategories(string userId)
     {
-
         var query = new GetAllLinkCategoriesByUserQuery(userId);
         var result = await _mediator.Send(query);
-        return Ok(result);
 
+        return result.Any() ? Ok(result) : NotFound(result);
     }
+
 
     [HttpPost]
     [Route("create-category")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-
-    public async Task<ActionResult<bool>> CreateCategory([FromBody] CreateLinkCategoryCommand categoryCommand)
+    public async Task<ActionResult<bool>> CreateCategory([FromBody] CreateLinkCategoryCommand createCommand, CancellationToken token)
     {
-        var result = await _mediator.Send(categoryCommand);
-        return Ok(result);
+        var result = await _mediator.Send(createCommand, token);
+
+        return result ? Ok(result) : BadRequest(result);
     }
 
 
-    //[HttpGet]
-    //[Route("all/{userId}")]
-    //public async Task<IActionResult> GetAll(string userId)
-    //{      
-    //    List<UserLink> objList = await _db.Links
-    //        .Where(link => link.UserId.Equals(userId))
-    //        .OrderBy(link => link.Id)
-    //        .ToListAsync();
+    [HttpPut]
+    [Route("update-category")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<ActionResult<bool>> UpdateCategory([FromBody] UpdateLinkCategoryCommand updateCommand, CancellationToken token)
+    {
+        var result = await _mediator.Send(updateCommand, token);
 
-    //    return objList.Any() ? Ok(objList) : NotFound();
-    //}
+        return result ? Ok(result) : BadRequest(result);
+    }
 
-    //[HttpGet]
-    //[Route("favorites/{userId}")]
-    //public async Task<IActionResult> GetFavorites(string userId)
-    //{
-    //    var objList = await _db.Links
-    //        .Where(link => link.UserId.Equals(userId) && link.Favorite)
-    //        .OrderBy(link => link.Id)
-    //        .ToListAsync();
 
-    //    return objList.Any() ? Ok(objList) : NotFound(objList);
+    [HttpDelete]
+    [Route("delete-category/{id}")]
+    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<ActionResult<bool>> DeleteCategory(string id, CancellationToken token)
+    {
+        if (Guid.TryParse(id, out Guid guidId))
+        {
+            var result = await _mediator.Send(new DeleteLinkCategoryCommand(guidId), token);
+            return result ? Ok(result) : NotFound(id);
+        }
 
-    //}
-
-    //[HttpPost]
-    //[Route("create")]
-    //public async Task<IActionResult> Post([FromBody] LinkDto linkDto, CancellationToken token)
-    //{
-    //    if (ModelState.IsValid) 
-    //    {
-    //        await _db.Links.AddAsync(_mapper.Map<Link>(linkDto), token);
-    //        await _db.SaveChangesAsync(token);
-
-    //        return Ok();
-    //    }
-
-    //    return BadRequest();
-    //}
-
-    //[HttpPut]
-    //[Route("update")]
-    //public async Task<IActionResult> Put([FromBody] LinkDto linkDto, CancellationToken token)
-    //{
-    //    if (ModelState.IsValid)
-    //    {
-    //        _db.Links.Update(_mapper.Map<Link>(linkDto));
-    //        await _db.SaveChangesAsync(token);
-
-    //        return Ok();
-    //    }
-
-    //    return BadRequest();
-    //}
-
-    //[HttpDelete]
-    //[Route("delete/{linkId:guid}")]
-    //public async Task<IActionResult> Delete(Guid linkId, CancellationToken token)
-    //{
-    //    Link obj = await _db.Links.FirstAsync(link => link.Id.Equals(linkId));
-    //    _db.Remove(obj);
-    //    await _db.SaveChangesAsync(token);
-
-    //    return Ok();
-    //}
+        return BadRequest(id);
+    }
 }

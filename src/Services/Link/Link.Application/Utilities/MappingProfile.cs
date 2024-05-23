@@ -10,9 +10,10 @@ public sealed class MappingProfile : Profile
     public MappingProfile()
     {
         #region LinkCategory
-        CreateMap<LinkCategoryResponse, LinkCategory>().ReverseMap();
-        CreateMap<CreateLinkCategoryCommand, LinkCategory>().ReverseMap();
-        CreateMap<UpdateLinkCategoryCommand, LinkCategory>().ReverseMap();
+        CreateMap<LinkCategory, LinkCategoryResponse>().ReverseMap();
+        CreateMap<LinkCategory, CreateLinkCategoryCommand>().ReverseMap();
+        CreateMap<LinkCategory, UpdateLinkCategoryCommand>().ReverseMap()
+            .ForMember(model => model.Name, opt => opt.MapFrom(model => model.NewName));
         #endregion
 
         #region UserLink

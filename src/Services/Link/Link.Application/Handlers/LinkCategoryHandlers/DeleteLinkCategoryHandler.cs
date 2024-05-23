@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Link.Application.Handlers.LinkCategoryHandlers;
 
-public sealed class DeleteLinkCategoryHandler : IRequestHandler<DeleteLinkCategoryQuery, bool>
+public sealed class DeleteLinkCategoryHandler : IRequestHandler<DeleteLinkCategoryCommand, bool>
 {
     private readonly IRepository<LinkCategory> _repository;
 
@@ -14,7 +14,7 @@ public sealed class DeleteLinkCategoryHandler : IRequestHandler<DeleteLinkCatego
         _repository = repository;
     }
 
-    public async Task<bool> Handle(DeleteLinkCategoryQuery request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteLinkCategoryCommand request, CancellationToken cancellationToken)
     {
 
         var linkCategory = await _repository.Get(category => category.Id == request.Id, token: cancellationToken);

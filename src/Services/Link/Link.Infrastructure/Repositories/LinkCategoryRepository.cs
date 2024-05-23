@@ -41,9 +41,11 @@ public class LinkCategoryRepository : IRepository<LinkCategory>
     public async Task<bool> Create(LinkCategory entity, CancellationToken token = default)
     {
         var entityFromDb = await _categoriesTableDb.AddAsync(entity, token);
-        await _appDbContext.SaveChangesAsync();
+        var changes = await _appDbContext.SaveChangesAsync(token);
 
-        return entityFromDb.Entity is not null;
+        bool result = entityFromDb.Entity != null && changes != default;
+
+        return result;
     }
 
     public async Task<bool> Update(LinkCategory entity, CancellationToken token = default)

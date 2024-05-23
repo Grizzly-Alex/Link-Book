@@ -2,4 +2,4 @@
 
 namespace Link.Application.Commands.LinkTagCommands;
 
-public record class DeleteLinkCategoryQuery(Guid Id) : IRequest<bool>;
+public record class DeleteLinkCategoryCommand(Guid Id) : IRequest<bool>;

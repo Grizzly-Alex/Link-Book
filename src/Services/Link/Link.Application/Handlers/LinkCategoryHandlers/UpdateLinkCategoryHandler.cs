@@ -21,11 +21,6 @@ public sealed class UpdateLinkCategoryHandler : IRequestHandler<UpdateLinkCatego
     {
         var linkCategory = _mapper.Map<LinkCategory>(request);
 
-        if (linkCategory is null) 
-        {
-            return false;
-        }
-
         return await _repository.Update(linkCategory, cancellationToken);
     }
 }
