@@ -1,4 +1,4 @@
-﻿using Link.Application.Commands.LinkTagCommands;
+﻿using Link.Application.Commands.CategoryLinkCommands;
 using Link.Application.Queries.LinkCategoryQueries;
 using Link.Application.Responses;
 using MediatR;
@@ -9,11 +9,11 @@ using System.Net;
 namespace LinkBook.Services.UrlAPI.Controllers;
 
 
-public class LinkController : ApiController
+public class CategoryLinkController : ApiController
 {
     private readonly IMediator _mediator;
 
-    public LinkController(IMediator mediator)
+    public CategoryLinkController(IMediator mediator)
     {
         _mediator = mediator;
     }
@@ -21,12 +21,12 @@ public class LinkController : ApiController
 
     [HttpGet]
     [Route("[action]/{userId}", Name = "get-categories-by-user-id")]
-    [ProducesResponseType(typeof(IEnumerable<LinkCategoryResponse>), (int)HttpStatusCode.OK)]
-    [ProducesResponseType(typeof(IEnumerable<LinkCategoryResponse>), (int)HttpStatusCode.NotFound)]
-    public async Task<ActionResult<IEnumerable<LinkCategoryResponse>>> GetCategories(string userId)
+    [ProducesResponseType(typeof(IEnumerable<CategoryLinkResponse>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<CategoryLinkResponse>), (int)HttpStatusCode.NotFound)]
+    public async Task<ActionResult<IEnumerable<CategoryLinkResponse>>> GetCategories(string userId, CancellationToken token)
     {
         var query = new GetAllLinkCategoriesByUserQuery(userId);
-        var result = await _mediator.Send(query);
+        var result = await _mediator.Send(query, token);
 
         return result.Any() ? Ok(result) : NotFound(result);
     }
@@ -36,7 +36,7 @@ public class LinkController : ApiController
     [Route("create-category")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<ActionResult<bool>> CreateCategory([FromBody] CreateLinkCategoryCommand createCommand, CancellationToken token)
+    public async Task<ActionResult<bool>> CreateCategory([FromBody] CreateCategoryLinkCommand createCommand, CancellationToken token)
     {
         var result = await _mediator.Send(createCommand, token);
 
@@ -48,7 +48,7 @@ public class LinkController : ApiController
     [Route("update-category")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<ActionResult<bool>> UpdateCategory([FromBody] UpdateLinkCategoryCommand updateCommand, CancellationToken token)
+    public async Task<ActionResult<bool>> UpdateCategory([FromBody] UpdateCategoryLinkCommand updateCommand, CancellationToken token)
     {
         var result = await _mediator.Send(updateCommand, token);
 
@@ -65,7 +65,7 @@ public class LinkController : ApiController
     {
         if (Guid.TryParse(id, out Guid guidId))
         {
-            var result = await _mediator.Send(new DeleteLinkCategoryCommand(guidId), token);
+            var result = await _mediator.Send(new DeleteCategoryLinkCommand(guidId), token);
             return result ? Ok(result) : NotFound(id);
         }
 

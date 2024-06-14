@@ -1,9 +1,9 @@
 ﻿using Link.Core.Entities;
 using MediatR;
 
-namespace Link.Application.Commands.UserLinkCommands;
+namespace Link.Application.Commands.AliasLinkCommands;
 
-public sealed class UpdateUserLinkCommand : IRequest<UserLink>
+public sealed class UpdateAliasLinkCommand : IRequest<AliasLink>
 {
     public Guid Id { get; set; }
     public string AliasUrl { get; set; }

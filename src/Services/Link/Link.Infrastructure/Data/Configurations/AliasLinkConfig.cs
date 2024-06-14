@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Link.Infrastructure.Data.Configurations;
 
-public class UserLinkConfig : IEntityTypeConfiguration<UserLink>
+public class AliasLinkConfig : IEntityTypeConfiguration<AliasLink>
 {
-    public void Configure(EntityTypeBuilder<UserLink> builder)
+    public void Configure(EntityTypeBuilder<AliasLink> builder)
     {
         builder.ToTable("Links").HasKey(t => t.Id);
         builder.Property(t => t.Id).HasColumnType("UNIQUEIDENTIFIER");

@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Link.Infrastructure.Data.Configurations;
 
-public class LinkCategoryConfig : IEntityTypeConfiguration<LinkCategory>
+public class CategoryLinkConfig : IEntityTypeConfiguration<CategoryLink>
 {
-    public void Configure(EntityTypeBuilder<LinkCategory> builder)
+    public void Configure(EntityTypeBuilder<CategoryLink> builder)
     {
         builder.ToTable("Categories").HasKey(t => t.Id);
         builder.Property(t => t.Id).HasColumnType("UNIQUEIDENTIFIER");

@@ -3,13 +3,13 @@ using Link.Core.Entities;
 using Link.Core.Interfaces;
 using MediatR;
 
-namespace Link.Application.Handlers.LinkCategoryHandlers;
+namespace Link.Application.Handlers.AliasLinkHandlers;
 
-public sealed class DeleteLinkCategoryHandler : IRequestHandler<DeleteCategoryLinkCommand, bool>
+public sealed class DeleteAliasLinkHandler : IRequestHandler<DeleteCategoryLinkCommand, bool>
 {
     private readonly IRepository<CategoryLink> _repository;
 
-    public DeleteLinkCategoryHandler(IRepository<CategoryLink> repository)
+    public DeleteAliasLinkHandler(IRepository<CategoryLink> repository)
     {
         _repository = repository;
     }

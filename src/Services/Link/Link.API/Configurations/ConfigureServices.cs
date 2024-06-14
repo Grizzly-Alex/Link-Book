@@ -18,8 +18,8 @@ public static class ConfigureServices
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-        services.AddScoped(typeof(IRepository<LinkCategory>), typeof(LinkCategoryRepository));
-        services.AddScoped(typeof(IRepository<UserLink>), typeof(UserLinkRepository));
+        services.AddScoped(typeof(IRepository<CategoryLink>), typeof(CategoryLinkRepository));
+        services.AddScoped(typeof(IRepository<AliasLink>), typeof(AliasLinkRepository));
         services.AddScoped(typeof(IDbInitializer), typeof(Initializer));
         return services;
     }

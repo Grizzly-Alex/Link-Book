@@ -22,26 +22,7 @@ namespace Link.Infrastructure.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Link.Core.Entities.LinkCategory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("UNIQUEIDENTIFIER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("NVARCHAR(50)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("NVARCHAR(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories", (string)null);
-                });
-
-            modelBuilder.Entity("Link.Core.Entities.UserLink", b =>
+            modelBuilder.Entity("Link.Core.Entities.AliasLink", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -75,9 +56,28 @@ namespace Link.Infrastructure.Data.Migrations
                     b.ToTable("Links", (string)null);
                 });
 
-            modelBuilder.Entity("Link.Core.Entities.UserLink", b =>
+            modelBuilder.Entity("Link.Core.Entities.CategoryLink", b =>
                 {
-                    b.HasOne("Link.Core.Entities.LinkCategory", "Category")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("UNIQUEIDENTIFIER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("NVARCHAR(50)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("NVARCHAR(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories", (string)null);
+                });
+
+            modelBuilder.Entity("Link.Core.Entities.AliasLink", b =>
+                {
+                    b.HasOne("Link.Core.Entities.CategoryLink", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict);
