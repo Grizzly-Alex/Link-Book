@@ -1,29 +1,23 @@
-﻿using Link.Application.Commands.CategoryLinkCommands;
-using Link.Core.Entities;
+﻿using Link.Application.Commands.AliasLinkCommands;
+using Link.Application.Responses;
 using Link.Core.Interfaces;
 using MediatR;
 
 namespace Link.Application.Handlers.AliasLinkHandlers;
 
-public sealed class DeleteAliasLinkHandler : IRequestHandler<DeleteCategoryLinkCommand, bool>
+public sealed class DeleteAliasLinkHandler : IRequestHandler<DeleteAliasLinkCommand, Response>
 {
-    private readonly IRepository<CategoryLink> _repository;
+    private readonly IAliasLinkRepository _repository;
 
-    public DeleteAliasLinkHandler(IRepository<CategoryLink> repository)
+    public DeleteAliasLinkHandler(IAliasLinkRepository repository)
     {
         _repository = repository;
     }
 
-    public async Task<bool> Handle(DeleteCategoryLinkCommand request, CancellationToken cancellationToken)
+    public async Task<Response> Handle(DeleteAliasLinkCommand request, CancellationToken cancellationToken)
     {
+        var result = await _repository.Delete(request.Id, cancellationToken);
 
-        var linkCategory = await _repository.Get(category => category.Id == request.Id, token: cancellationToken);
-
-        if (linkCategory is null)
-        {
-            return false;
-        }
-
-        return await _repository.Delete(linkCategory, cancellationToken);
+        return new Response(null, result, result ? $"deleted successfully" : $"object not found");
     }
 }

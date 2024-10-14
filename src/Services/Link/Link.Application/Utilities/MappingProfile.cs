@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Link.Application.Commands.CategoryLinkCommands;
+using Link.Application.Commands.AliasCategoryCommands;
+using Link.Application.Commands.AliasLinkCommands;
 using Link.Application.Responses;
 using Link.Core.Entities;
 
@@ -9,16 +10,17 @@ public sealed class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        #region LinkCategory
-        CreateMap<CategoryLink, CategoryLinkResponse>().ReverseMap();
-        CreateMap<CategoryLink, CreateCategoryLinkCommand>().ReverseMap();
-        CreateMap<CategoryLink, UpdateCategoryLinkCommand>().ReverseMap()
+        #region AliasCategory
+        CreateMap<AliasCategory, AliasCategoryResponse>().ReverseMap();
+        CreateMap<AliasCategory, CreateAliasCategoryCommand>().ReverseMap();
+        CreateMap<AliasCategory, UpdateAliasCategoryCommand>().ReverseMap()
             .ForMember(model => model.Name, opt => opt.MapFrom(model => model.NewName));
         #endregion
 
         #region AliasLink
-        CreateMap<AliasLinkResponse, AliasLink>().ReverseMap()
-            .ForMember(model => model.Category, opt => opt.MapFrom(model => model.Category.Name));
+        CreateMap<AliasLink, CreateAliasLinkCommand>().ReverseMap();
+        CreateMap<AliasLink, UpdateAliasLinkCommand>().ReverseMap();
+        CreateMap<AliasLink, AliasLinkResponse>().ReverseMap();
         #endregion
     }
 }

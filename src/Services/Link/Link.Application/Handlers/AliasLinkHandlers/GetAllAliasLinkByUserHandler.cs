@@ -7,23 +7,25 @@ using MediatR;
 
 namespace Link.Application.Handlers.AliasLinkHandlers;
 
-public sealed class GetAllAliasLinkByUserHandler : IRequestHandler<GetAllAliasLinksByUserQuery, IList<AliasLinkResponse>>
+public sealed class GetAllAliasLinkByUserHandler : IRequestHandler<GetAllAliasLinksByUserQuery, Response>
 {
-    private readonly IRepository<AliasLink> _repository;
+    private readonly IAliasLinkRepository _repository;
     private IMapper _mapper;
 
     public GetAllAliasLinkByUserHandler(
-        IRepository<AliasLink> repository,
+        IAliasLinkRepository repository,
         IMapper mapper)
     {
         _repository = repository;
         _mapper = mapper;
     }
 
-    public async Task<IList<AliasLinkResponse>> Handle(GetAllAliasLinksByUserQuery request, CancellationToken cancellationToken)
+    public async Task<Response> Handle(GetAllAliasLinksByUserQuery request, CancellationToken cancellationToken)
     {
-        var userLinks = await _repository.GetAll(category => category.UserId.Equals(request.UserId), token: cancellationToken);
+        var userLinks = await _repository.GetAll(link => link.UserId.Equals(request.UserId), token: cancellationToken);
 
-        return _mapper.Map<IList<AliasLinkResponse>>(userLinks);
+        return userLinks.Any()
+            ? new Response(_mapper.Map<IList<AliasLinkResponse>>(userLinks), true, $"list received successfully")
+            : new Response(_mapper.Map<IList<AliasLinkResponse>>(userLinks), false, $"list not found");
     }
 }

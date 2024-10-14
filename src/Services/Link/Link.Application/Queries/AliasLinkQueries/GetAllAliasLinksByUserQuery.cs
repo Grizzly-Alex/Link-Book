@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Link.Application.Queries.AliasLinkQueries;
 
-public record class GetAllAliasLinksByUserQuery(string UserId) : IRequest<IList<AliasLinkResponse>>;
+public record class GetAllAliasLinksByUserQuery(string UserId) : IRequest<Response>;

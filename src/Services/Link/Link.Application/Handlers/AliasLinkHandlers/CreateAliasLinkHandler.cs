@@ -1,31 +1,35 @@
 ﻿using AutoMapper;
-using Link.Application.Commands.CategoryLinkCommands;
+using Link.Application.Commands.AliasLinkCommands;
+using Link.Application.Responses;
 using Link.Core.Entities;
 using Link.Core.Interfaces;
 using MediatR;
 
 namespace Link.Application.Handlers.AliasLinkHandlers;
 
-public sealed class CreateAliasLinkHandler : IRequestHandler<CreateCategoryLinkCommand, bool>
+public sealed class CreateAliasLinkHandler : IRequestHandler<CreateAliasLinkCommand, Response>
 {
-    private readonly IRepository<CategoryLink> _repository;
+    private readonly IAliasLinkRepository _linkRepository;
+    private readonly IAliasCategoryQuery<Guid?> _query;
     private readonly IMapper _mapper;
 
-    public CreateAliasLinkHandler(IRepository<CategoryLink> repository, IMapper mapper)
+    public CreateAliasLinkHandler(IAliasLinkRepository linkRepository, IAliasCategoryQuery<Guid?> query, IMapper mapper)
     {
-        _repository = repository;
-        _mapper = mapper;           
+        _linkRepository = linkRepository;
+        _query = query;
+        _mapper = mapper;
     }
 
-    public async Task<bool> Handle(CreateCategoryLinkCommand request, CancellationToken cancellationToken)
+
+    public async Task<Response> Handle(CreateAliasLinkCommand request, CancellationToken cancellationToken)
     {
-        var linkCategory = _mapper.Map<CategoryLink>(request);
+        if(request.CategoryId is not null)        
+            if (!await _query.Contains(request.CategoryId, cancellationToken))
+                return new Response(null, false, $"category not found");
+        
+        var result = await _linkRepository.Create(_mapper.Map<AliasLink>(request), cancellationToken);
+        bool isSuccess = result != null;
 
-        if (linkCategory is null) 
-        {
-            return false;
-        }
-
-        return await _repository.Create(linkCategory, cancellationToken);
+        return new Response(result, isSuccess, isSuccess ? $"created successfully" : $"something wrong...");      
     }
 }

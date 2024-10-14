@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Link.Application.Responses;
+using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 
@@ -27,12 +28,12 @@ public sealed class ExceptionHandler : IMiddleware
             {
                 Status = (int)HttpStatusCode.InternalServerError,
                 Title = "Server error",
-                Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1"
+                Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1"              
             };
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            await context.Response.WriteAsJsonAsync(problem);
+            await context.Response.WriteAsJsonAsync(new Response(problem, false, ex.Message));
         }
     }
 }

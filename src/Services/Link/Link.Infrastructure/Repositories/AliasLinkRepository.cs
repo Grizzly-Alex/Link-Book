@@ -6,12 +6,14 @@ using System.Linq.Expressions;
 
 namespace Link.Infrastructure.Repositories;
 
-public class AliasLinkRepository : IRepository<AliasLink>
+public class AliasLinkRepository : IAliasLinkRepository
 {
     private readonly DbSet<AliasLink> _linkTableDb;
+    private readonly Func<CancellationToken, Task<int>> _commit;
 
     public AliasLinkRepository(AppDbContext context)
     {
+        _commit = context.SaveChangesAsync;
         _linkTableDb = context.Set<AliasLink>();
     }
 
@@ -23,7 +25,7 @@ public class AliasLinkRepository : IRepository<AliasLink>
             .AsNoTracking()
             .FirstOrDefaultAsync(predicate, token);
     }
-    public async Task<IEnumerable<AliasLink>?> GetAll(
+    public async Task<IEnumerable<AliasLink>> GetAll(
         Expression<Func<AliasLink, bool>> predicate,
         Func<IQueryable<AliasLink>, IOrderedQueryable<AliasLink>>? orderBy = null,
         CancellationToken token = default)
@@ -37,11 +39,13 @@ public class AliasLinkRepository : IRepository<AliasLink>
             : await query.ToListAsync(token);
     }
 
-    public async Task<bool> Create(AliasLink entity, CancellationToken token = default)
+    public async Task<AliasLink?> Create(AliasLink entity, CancellationToken token = default)
     {
         var entityFromDb = await _linkTableDb.AddAsync(entity, token);
+        var changes = await _commit(token);
 
-        return entityFromDb.Entity is not null;
+        return entityFromDb.Entity != null && changes != default 
+            ? entityFromDb.Entity : null;
     }
     public async Task<bool> Update(AliasLink entity, CancellationToken token = default)
     {
@@ -56,9 +60,9 @@ public class AliasLinkRepository : IRepository<AliasLink>
         return rowsUpdated != 0;
     }
 
-    public async Task<bool> Delete(AliasLink entity, CancellationToken token = default)
+    public async Task<bool> Delete<Guid>(Guid id, CancellationToken token = default)
     {
-        var rowsDeleted = await _linkTableDb.Where(item => item.Id == entity.Id)
+        var rowsDeleted = await _linkTableDb.Where(item => item.Id.Equals(id))
             .ExecuteDeleteAsync(token);
 
         return rowsDeleted != 0;

@@ -28,7 +28,7 @@ public class AliasLinkConfig : IEntityTypeConfiguration<AliasLink>
         builder.HasOne(p => p.Category)
             .WithMany()
             .HasForeignKey(p => p.CategoryId)
-            .IsRequired(false)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.SetNull)
+            .IsRequired(false);
     }
 }

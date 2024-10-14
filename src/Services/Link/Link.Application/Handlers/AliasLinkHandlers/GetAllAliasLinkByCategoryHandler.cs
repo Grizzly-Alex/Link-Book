@@ -7,13 +7,13 @@ using MediatR;
 
 namespace Link.Application.Handlers.AliasLinkHandlers;
 
-public sealed class GetAllAliasLinkByCategoryHandler : IRequestHandler<GetAllAliasLinkByCategoryQuery, IList<AliasLinkResponse>>
+public sealed class GetAllAliasLinkByCategoryHandler : IRequestHandler<GetAllAliasLinkByCategoryQuery, Response>
 {
-    private readonly IRepository<AliasLink> _repository;
+    private readonly IAliasLinkRepository _repository;
     private IMapper _mapper;
 
     public GetAllAliasLinkByCategoryHandler(
-        IRepository<AliasLink> repository,
+        IAliasLinkRepository repository,
         IMapper mapper)
     {
         _repository = repository;
@@ -21,12 +21,14 @@ public sealed class GetAllAliasLinkByCategoryHandler : IRequestHandler<GetAllAli
     }
 
 
-    public async Task<IList<AliasLinkResponse>> Handle(GetAllAliasLinkByCategoryQuery request, CancellationToken cancellationToken)
+    public async Task<Response> Handle(GetAllAliasLinkByCategoryQuery request, CancellationToken cancellationToken)
     {
         var userLinks = await _repository.GetAll(
-            userLink => userLink.UserId.Equals(request.UserId) && userLink.CategoryId.Equals(request.CategoryId),
+            userLink => userLink.CategoryId.Equals(request.CategoryId),
             token: cancellationToken);
 
-        return _mapper.Map<IList<AliasLinkResponse>>(userLinks);
+        return userLinks.Any()
+            ? new Response(_mapper.Map<IList<AliasLinkResponse>>(userLinks), true, $"list received successfully")
+            : new Response(_mapper.Map<IList<AliasLinkResponse>>(userLinks), false, $"list not found");
     }
 }

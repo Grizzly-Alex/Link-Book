@@ -1,8 +1,8 @@
 ﻿using Link.API.Utilities;
 using Link.Application.Utilities;
-using Link.Core.Entities;
 using Link.Core.Interfaces;
 using Link.Infrastructure.Data;
+using Link.Infrastructure.Queries;
 using Link.Infrastructure.Repositories;
 
 
@@ -18,9 +18,10 @@ public static class ConfigureServices
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-        services.AddScoped(typeof(IRepository<CategoryLink>), typeof(CategoryLinkRepository));
-        services.AddScoped(typeof(IRepository<AliasLink>), typeof(AliasLinkRepository));
-        services.AddScoped(typeof(IDbInitializer), typeof(Initializer));
+        services.AddScoped(typeof(IAliasCategoryQuery<Guid?>), typeof(AliasCategoryQuery));
+        services.AddScoped(typeof(IAliasCategoryRepository), typeof(AliasCategoryRepository));
+        services.AddScoped(typeof(IAliasLinkRepository), typeof(AliasLinkRepository));
+        services.AddScoped(typeof(IDbInitializer), typeof(Initializer)); 
         return services;
     }
 }
