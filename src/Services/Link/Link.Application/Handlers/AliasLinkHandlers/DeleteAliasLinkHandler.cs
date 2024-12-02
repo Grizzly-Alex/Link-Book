@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Link.Application.Handlers.AliasLinkHandlers;
 
-public sealed class DeleteAliasLinkHandler : IRequestHandler<DeleteAliasLinkCommand, Response>
+internal sealed class DeleteAliasLinkHandler : IRequestHandler<DeleteAliasLinkCommand, Response>
 {
     private readonly IAliasLinkRepository _repository;
 

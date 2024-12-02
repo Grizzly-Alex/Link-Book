@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Link.Application.Handlers.AliasLinkHandlers;
 
-public sealed class UpdateAliasLinkHandler : IRequestHandler<UpdateAliasLinkCommand, Response>
+internal sealed class UpdateAliasLinkHandler : IRequestHandler<UpdateAliasLinkCommand, Response>
 {
     private readonly IAliasLinkRepository _repository;
     private readonly IAliasCategoryQuery<Guid?> _query;

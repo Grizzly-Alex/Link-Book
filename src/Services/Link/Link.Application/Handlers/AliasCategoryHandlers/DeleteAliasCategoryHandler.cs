@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Link.Application.Handlers.AliasCategoryHandlers;
 
-public sealed class DeleteAliasCategoryHandler : IRequestHandler<DeleteAliasCategoryCommand, Response>
+internal sealed class DeleteAliasCategoryHandler : IRequestHandler<DeleteAliasCategoryCommand, Response>
 {
     private readonly IAliasCategoryRepository _repository;
 

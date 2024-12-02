@@ -1,11 +1,12 @@
 ﻿using Link.Application.Commands.AliasCategoryCommands;
 using Link.Application.Queries.AliasCategoryQueries;
 using Link.Application.Responses;
+using LinkBook.Services.UrlAPI.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace LinkBook.Services.UrlAPI.Controllers;
+namespace Link.API.Controllers;
 
 public class AliasCategoryController : ApiController
 {
@@ -25,8 +26,8 @@ public class AliasCategoryController : ApiController
     {
         var response = await _mediator.Send(new GetAllAliasCategoriesByUserQuery(userId), token);
 
-        return response.IsSuccess 
-            ? Ok(response) 
+        return response.IsSuccess
+            ? Ok(response)
             : NotFound(response);
     }
 
@@ -39,11 +40,11 @@ public class AliasCategoryController : ApiController
     {
         var response = await _mediator.Send(command, token);
 
-        return response.IsSuccess 
-            ? Ok(response) 
+        return response.IsSuccess
+            ? Ok(response)
             : BadRequest(response);
     }
-     
+
 
     [HttpPut]
     [Route("update-category")]
@@ -54,9 +55,9 @@ public class AliasCategoryController : ApiController
     {
         var response = await _mediator.Send(command, token);
 
-        return response.IsSuccess 
-            ? Ok(response) 
-            : BadRequest(response); 
+        return response.IsSuccess
+            ? Ok(response)
+            : BadRequest(response);
     }
 
 
@@ -70,8 +71,8 @@ public class AliasCategoryController : ApiController
         if (Guid.TryParse(id, out Guid guidId))
         {
             var response = await _mediator.Send(new DeleteAliasCategoryCommand(guidId), token);
-            return response.IsSuccess 
-                ? Ok(response) 
+            return response.IsSuccess
+                ? Ok(response)
                 : NotFound(response);
         }
 

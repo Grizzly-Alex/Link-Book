@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{A2DDDEB8-F2B6-43DD-91FB-AD143F8779D1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{322190D9-F6CC-4B6A-AB8D-5B82B95BFF04}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Link", "Link", "{1EF19140-B153-4A28-852C-D815F75CA201}"
@@ -16,6 +14,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Link.Application", "Services\Link\Link.Application\Link.Application.csproj", "{2CB404A6-E53A-41F7-8F60-88DE1CD35104}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Link.Infrastructure", "Services\Link\Link.Infrastructure\Link.Infrastructure.csproj", "{720FB123-8FDE-451B-A0B0-5EC390AF8DBE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A4A12B79-5BA0-4094-B551-69989C701077}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Link.API.UnitTests", "Link.API.UnitTests\Link.API.UnitTests.csproj", "{D8C290AE-C128-4B6D-AE99-102DFD054FF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{720FB123-8FDE-451B-A0B0-5EC390AF8DBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{720FB123-8FDE-451B-A0B0-5EC390AF8DBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{720FB123-8FDE-451B-A0B0-5EC390AF8DBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8C290AE-C128-4B6D-AE99-102DFD054FF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8C290AE-C128-4B6D-AE99-102DFD054FF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8C290AE-C128-4B6D-AE99-102DFD054FF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8C290AE-C128-4B6D-AE99-102DFD054FF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +55,7 @@ Global
 		{FB3DA5B3-B8F3-419A-808A-4E20D3092040} = {1EF19140-B153-4A28-852C-D815F75CA201}
 		{2CB404A6-E53A-41F7-8F60-88DE1CD35104} = {1EF19140-B153-4A28-852C-D815F75CA201}
 		{720FB123-8FDE-451B-A0B0-5EC390AF8DBE} = {1EF19140-B153-4A28-852C-D815F75CA201}
+		{D8C290AE-C128-4B6D-AE99-102DFD054FF2} = {A4A12B79-5BA0-4094-B551-69989C701077}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2D745740-662F-4076-A140-C21D556A36CE}

@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Link.Application.Handlers.AliasCategoryHandlers;
 
-public sealed class GetAllAliasCategoriesByUserHandler : IRequestHandler<GetAllAliasCategoriesByUserQuery, Response>
+internal sealed class GetAllAliasCategoriesByUserHandler : IRequestHandler<GetAllAliasCategoriesByUserQuery, Response>
 {
     private readonly IAliasCategoryRepository _repository;
     private IMapper _mapper;

@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Link.Application.Handlers.AliasCategoryHandlers;
 
-public sealed class UpdateAliasCategoryHandler : IRequestHandler<UpdateAliasCategoryCommand, Response>
+internal sealed class UpdateAliasCategoryHandler : IRequestHandler<UpdateAliasCategoryCommand, Response>
 {
     private readonly IAliasCategoryRepository _repository;
     private readonly IMapper _mapper;
