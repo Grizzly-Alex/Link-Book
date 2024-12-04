@@ -1,9 +1,6 @@
-﻿using Link.Application.Responses;
-using MediatR;
+﻿namespace Link.Application.Commands.AliasLinkCommands;
 
-namespace Link.Application.Commands.AliasLinkCommands;
-
-public sealed class UpdateAliasLinkCommand : IRequest<Response>
+public sealed class UpdateAliasLinkCommand : ICommand
 {
     public Guid Id { get; set; }
     public string AliasUrl { get; set; }

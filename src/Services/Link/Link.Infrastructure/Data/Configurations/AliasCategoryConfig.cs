@@ -1,4 +1,4 @@
-﻿using Link.Core.Entities;
+﻿using Link.Core.Entities.Category;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

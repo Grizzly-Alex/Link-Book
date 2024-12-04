@@ -1,11 +1,13 @@
-﻿using Link.Application.Commands.AliasLinkCommands;
+﻿using Link.Application.Commands;
+using Link.Application.Commands.AliasLinkCommands;
 using Link.Application.Responses;
+using Link.Core.Entities;
 using Link.Core.Interfaces;
-using MediatR;
+
 
 namespace Link.Application.Handlers.AliasLinkHandlers;
 
-internal sealed class DeleteAliasLinkHandler : IRequestHandler<DeleteAliasLinkCommand, Response>
+internal sealed class DeleteAliasLinkHandler : ICommandHandler<DeleteAliasLinkCommand>
 {
     private readonly IAliasLinkRepository _repository;
 
@@ -14,10 +16,10 @@ internal sealed class DeleteAliasLinkHandler : IRequestHandler<DeleteAliasLinkCo
         _repository = repository;
     }
 
-    public async Task<Response> Handle(DeleteAliasLinkCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(DeleteAliasLinkCommand request, CancellationToken cancellationToken)
     {
         var result = await _repository.Delete(request.Id, cancellationToken);
 
-        return new Response(null, result, result ? $"deleted successfully" : $"object not found");
+        return Result.Create(result);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Link.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Text.Json;
 
 
 
@@ -36,7 +37,11 @@ public sealed class ExceptionHandler : IMiddleware
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             await context.Response.WriteAsJsonAsync(
-                new Result(false, new Error(context.Response.StatusCode, problemDeatils)));
+                new Result(
+                    isSuccess: false,
+                    error: new Error(
+                        HttpStatusCode.InternalServerError.ToString(),
+                        JsonSerializer.Serialize(problemDeatils))));
         }
     }
 }

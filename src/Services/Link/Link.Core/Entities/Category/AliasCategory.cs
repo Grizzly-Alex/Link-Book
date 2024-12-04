@@ -1,4 +1,4 @@
-﻿namespace Link.Core.Entities;
+﻿namespace Link.Core.Entities.Category;
 
 public sealed class AliasCategory : BaseEntity<Guid>
 {
@@ -6,7 +6,7 @@ public sealed class AliasCategory : BaseEntity<Guid>
     public string Name { get; init; }
 
     public AliasCategory()
-    {            
+    {
     }
 
     public AliasCategory(string userId, string name)
@@ -22,7 +22,7 @@ public sealed class AliasCategory : BaseEntity<Guid>
     {
         var category = obj as AliasCategory;
 
-        return category is not null 
+        return category is not null
             && category.UserId == UserId
             && category.Name == Name;
     }

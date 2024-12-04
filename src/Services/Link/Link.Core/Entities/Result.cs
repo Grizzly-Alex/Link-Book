@@ -43,7 +43,6 @@ public class Result<T> : Result
 {
     private readonly T? _value;
 
-
     public Result(T value, bool isSuccess, Error error) : base(isSuccess, error)
     {
         _value = value;

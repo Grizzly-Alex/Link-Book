@@ -1,4 +1,4 @@
-﻿using Link.Core.Entities;
+﻿using Link.Core.Entities.Link;
 using Link.Core.Interfaces;
 using Link.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;

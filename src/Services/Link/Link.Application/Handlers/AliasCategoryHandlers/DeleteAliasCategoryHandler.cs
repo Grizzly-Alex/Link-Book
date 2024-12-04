@@ -1,11 +1,12 @@
-﻿using Link.Application.Commands.AliasCategoryCommands;
-using Link.Application.Responses;
+﻿using Link.Application.Commands;
+using Link.Application.Commands.AliasCategoryCommands;
+using Link.Core.Entities;
+using Link.Core.Entities.Category;
 using Link.Core.Interfaces;
-using MediatR;
 
 namespace Link.Application.Handlers.AliasCategoryHandlers;
 
-internal sealed class DeleteAliasCategoryHandler : IRequestHandler<DeleteAliasCategoryCommand, Response>
+internal sealed class DeleteAliasCategoryHandler : ICommandHandler<DeleteAliasCategoryCommand>
 {
     private readonly IAliasCategoryRepository _repository;
 
@@ -14,10 +15,12 @@ internal sealed class DeleteAliasCategoryHandler : IRequestHandler<DeleteAliasCa
         _repository = repository;
     }
 
-    public async Task<Response> Handle(DeleteAliasCategoryCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(DeleteAliasCategoryCommand request, CancellationToken cancellationToken)
     {
-        var result = await _repository.Delete(request.Id, cancellationToken);
+        var isSuccess = await _repository.Delete(request.Id, cancellationToken);
 
-        return new Response(null, result, result ? $"deleted successfully" : $"object not found");
+        return isSuccess 
+            ? Result.Success() 
+            : Result.Failure(CategoryErrors.NotFound);  
     }
 }
