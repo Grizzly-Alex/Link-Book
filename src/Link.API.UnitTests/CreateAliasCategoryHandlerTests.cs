@@ -35,7 +35,7 @@ public class CreateAliasCategoryHandlerTests
             _mapperMock.Object);
 
         // Act
-        Result<Response> result = await handler.Handle(command, default);
+        var result = await handler.Handle(command, default);
 
         // Assert
         //result.IsFailure.Should().BeTrue();
