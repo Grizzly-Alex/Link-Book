@@ -13,9 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Link.Core\Link.Core.csproj" />
-	<InternalsVisibleTo Include ="Link.API.UnitTests"/>
+	<InternalsVisibleTo Include ="Link.UnitTests"/>
   </ItemGroup>
-
-
 
 </Project>

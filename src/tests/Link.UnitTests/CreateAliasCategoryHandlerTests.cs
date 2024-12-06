@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
+using FluentAssertions;
 using Link.Application.Commands.AliasCategoryCommands;
 using Link.Application.Handlers.AliasCategoryHandlers;
-using Link.Application.Responses;
-using Link.Core.Entities;
 using Link.Core.Interfaces;
 using Moq;
 using Xunit;
+using Link.Core.Entities.Category;
 
-namespace Link.API.UnitTests;
+namespace Link.UnitTests;
 
 public class CreateAliasCategoryHandlerTests
 {
@@ -22,24 +22,28 @@ public class CreateAliasCategoryHandlerTests
         _mapperMock = new();
     }
 
-
     [Fact]
     public async Task Handle_Should_FailureResult_WhenCategoryIsNotUniqueForUser()
     {
         // Arrange
-        var command = new CreateAliasCategoryCommand("usertest", "social network");
+        var command = new CreateAliasCategoryCommand("user", "social network");
+
+        _categoryQueryMock.Setup(
+            x => x.Contains(
+                It.IsAny<AliasCategory>(), 
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true);
 
         var handler = new CreateAliasCategoryHandler(
-            _categoryRepositoryMock.Object,
-            _categoryQueryMock.Object,
-            _mapperMock.Object);
+                _categoryRepositoryMock.Object,
+                _categoryQueryMock.Object,
+                _mapperMock.Object);
 
         // Act
         var result = await handler.Handle(command, default);
 
         // Assert
-        //result.IsFailure.Should().BeTrue();
-
-
+        result.IsFailure.Should().BeTrue();
+        result.Error.Should().Be(CategoryErrors.Conflict);
     }
 }
