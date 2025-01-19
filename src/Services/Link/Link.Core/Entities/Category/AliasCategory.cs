@@ -2,7 +2,7 @@
 
 public sealed class AliasCategory : BaseEntity<Guid>
 {
-    public string UserId { get; init; }
+    public string UserId { get; set; }
     public string Name { get; init; }
 
     public AliasCategory()

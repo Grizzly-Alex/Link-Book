@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Link.Application.Commands.AliasCategoryCommands;
 using Link.Application.Handlers.AliasCategoryHandlers;
-using Link.Application.Utilities;
 using Link.Core.Entities.Category;
 using Link.Core.Interfaces;
 using Moq;
