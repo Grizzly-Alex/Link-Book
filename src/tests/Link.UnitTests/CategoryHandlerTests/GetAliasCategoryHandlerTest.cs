@@ -10,7 +10,7 @@ using Link.Application.Queries.AliasCategoryQueries;
 using System.Linq.Expressions;
 
 
-namespace Link.UnitTests;
+namespace Link.UnitTests.CategoryHandlerTests;
 
 public class GetAliasCategoryHandlerTest
 {
@@ -29,7 +29,7 @@ public class GetAliasCategoryHandlerTest
     public async Task Handle_Should_ReturnFailureResult_WhenUserHaveNotCategories()
     {
         // Arrange
-        var query = new GetAllAliasCategoriesByUserQuery("userId");
+        var query = new GetAllAliasCategoriesByUserQuery(string.Empty);
 
         _categoryRepositoryMock.Setup(
             x => x.GetAll(

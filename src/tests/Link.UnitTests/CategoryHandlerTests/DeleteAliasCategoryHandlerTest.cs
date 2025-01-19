@@ -7,7 +7,7 @@ using Moq;
 using Xunit;
 
 
-namespace Link.UnitTests;
+namespace Link.UnitTests.CategoryHandlerTests;
 
 public class DeleteAliasCategoryHandlerTest
 {

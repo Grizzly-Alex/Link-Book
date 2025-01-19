@@ -8,32 +8,32 @@ using Xunit;
 using Link.Core.Entities.Category;
 using Link.Application.Utilities;
 
-namespace Link.UnitTests;
+namespace Link.UnitTests.CategoryHandlerTests;
 
-public class CreateAliasCategoryHandlerTests
+public class CreateAliasCategoryHandlerTest
 {
     private readonly Mock<IAliasCategoryRepository> _categoryRepositoryMock;
     private readonly Mock<IAliasCategoryQuery<Guid?>> _categoryQueryMock;
     private readonly IMapper _mapper;
 
-    public CreateAliasCategoryHandlerTests()
+    public CreateAliasCategoryHandlerTest()
     {
         _categoryRepositoryMock = new();
         _categoryQueryMock = new();
 
         _mapper = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfile()))
-            .CreateMapper(); 
+            .CreateMapper();
     }
 
     [Fact]
     public async Task Handle_Should_ReturnFailureResult_WhenCategoryIsNotUniqueForUser()
     {
         // Arrange
-        var command = new CreateAliasCategoryCommand("userId", "social network");
+        var command = new CreateAliasCategoryCommand(string.Empty, string.Empty);
 
         _categoryQueryMock.Setup(
             x => x.Contains(
-                It.IsAny<AliasCategory>(), 
+                It.IsAny<AliasCategory>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(true);
 
@@ -54,7 +54,7 @@ public class CreateAliasCategoryHandlerTests
     public async Task Handle_Should_ReturnSuccessResult_WhenCategoryIsUniqueForUser()
     {
         // Arrange
-        var command = new CreateAliasCategoryCommand("userId", "social network");
+        var command = new CreateAliasCategoryCommand(string.Empty, string.Empty);
 
         _categoryQueryMock.Setup(
             x => x.Contains(
@@ -78,6 +78,7 @@ public class CreateAliasCategoryHandlerTests
 
         // Assert
         result.IsSuccess.Should().BeTrue();
+        result.IsFailure.Should().BeFalse();
         result.Value.Should().NotBeNull();
     }
 }

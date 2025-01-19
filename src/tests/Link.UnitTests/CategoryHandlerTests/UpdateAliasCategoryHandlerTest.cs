@@ -9,7 +9,7 @@ using Link.Core.Entities.Category;
 using Link.Application.Utilities;
 
 
-namespace Link.UnitTests;
+namespace Link.UnitTests.CategoryHandlerTests;
 
 public class UpdateAliasCategoryHandlerTest
 {
@@ -29,7 +29,7 @@ public class UpdateAliasCategoryHandlerTest
     public async Task Handle_Should_ReturnFailureResult_WhenCategoryNotFound()
     {
         // Arrange
-        var command = new UpdateAliasCategoryCommand(Guid.NewGuid(), "social network");
+        var command = new UpdateAliasCategoryCommand(Guid.NewGuid(), string.Empty);
 
         _categoryRepositoryMock.Setup(
             x => x.Update(

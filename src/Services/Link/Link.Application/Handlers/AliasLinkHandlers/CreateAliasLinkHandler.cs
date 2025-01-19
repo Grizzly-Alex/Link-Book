@@ -3,6 +3,7 @@ using Link.Application.Commands;
 using Link.Application.Commands.AliasLinkCommands;
 using Link.Application.Responses;
 using Link.Core.Entities;
+using Link.Core.Entities.Category;
 using Link.Core.Entities.Link;
 using Link.Core.Interfaces;
 
@@ -27,7 +28,7 @@ internal sealed class CreateAliasLinkHandler : ICommandHandler<CreateAliasLinkCo
     {
         if(request.CategoryId is not null)        
             if (!await _query.Contains(request.CategoryId, cancellationToken))
-                return Result.Failure<AliasLinkResponse>(LinkErrors.NotFound);
+                return Result.Failure<AliasLinkResponse>(CategoryErrors.NotFound);
 
         var aliasLink = _mapper.Map<AliasLink>(request);
 
