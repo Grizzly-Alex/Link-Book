@@ -1,13 +1,15 @@
 ﻿using AutoMapper;
+using Link.Application.Commands;
 using Link.Application.Commands.AliasCategoryCommands;
 using Link.Application.Responses;
 using Link.Core.Entities;
+using Link.Core.Entities.Category;
 using Link.Core.Interfaces;
-using MediatR;
+
 
 namespace Link.Application.Handlers.AliasCategoryHandlers;
 
-public sealed class CreateAliasCategoryHandler : IRequestHandler<CreateAliasCategoryCommand, Response>
+internal sealed class CreateAliasCategoryHandler : ICommandHandler<CreateAliasCategoryCommand, AliasCategoryResponse>
 {
     private readonly IAliasCategoryRepository _repository;
     private readonly IAliasCategoryQuery<Guid?> _query;
@@ -21,16 +23,17 @@ public sealed class CreateAliasCategoryHandler : IRequestHandler<CreateAliasCate
     }
 
 
-    public async Task<Response> Handle(CreateAliasCategoryCommand request, CancellationToken cancellationToken)
+    public async Task<Result<AliasCategoryResponse>> Handle(CreateAliasCategoryCommand request, CancellationToken cancellationToken)
     {
         var category = _mapper.Map<AliasCategory>(request);
 
-        if (await _query.Contains(category, cancellationToken)) 
-            return new Response(null, false, $"exists in the user's list");
+        if (await _query.Contains(category, cancellationToken))
+            return Result.Failure<AliasCategoryResponse>(CategoryErrors.Conflict);
 
         var result = await _repository.Create(category, cancellationToken);
-        bool isSuccess = result != null;
 
-        return new Response(result, isSuccess, isSuccess ? $"created successfully" : $"something wrong...");           
+        var response = _mapper.Map<AliasCategoryResponse>(result);
+
+        return Result.Create(response);
     }
 }

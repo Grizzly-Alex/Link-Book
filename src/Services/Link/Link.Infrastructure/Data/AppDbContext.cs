@@ -1,4 +1,5 @@
-﻿using Link.Core.Entities;
+﻿using Link.Core.Entities.Category;
+using Link.Core.Entities.Link;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 

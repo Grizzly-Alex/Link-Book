@@ -1,5 +1,4 @@
-﻿using Link.Core.Entities;
-
+﻿using Link.Core.Entities.Category;
 
 namespace Link.Core.Interfaces;
 

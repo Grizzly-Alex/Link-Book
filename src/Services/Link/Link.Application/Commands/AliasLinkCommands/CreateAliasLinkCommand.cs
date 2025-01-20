@@ -1,9 +1,8 @@
 ﻿using Link.Application.Responses;
-using MediatR;
 
 namespace Link.Application.Commands.AliasLinkCommands;
 
-public sealed class CreateAliasLinkCommand : IRequest<Response>
+public sealed class CreateAliasLinkCommand : ICommand<AliasLinkResponse>
 {
     public string UserId { get; set; }
     public string AliasUrl { get; set; }

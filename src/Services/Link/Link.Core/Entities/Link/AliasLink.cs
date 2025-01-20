@@ -1,4 +1,6 @@
-﻿namespace Link.Core.Entities;
+﻿using Link.Core.Entities.Category;
+
+namespace Link.Core.Entities.Link;
 
 public sealed class AliasLink : BaseEntity<Guid>
 {
@@ -10,16 +12,16 @@ public sealed class AliasLink : BaseEntity<Guid>
     public AliasCategory Category { get; init; }
 
     public AliasLink()
-    {          
+    {
     }
 
-    public AliasLink(string userId, string aliasUrl, string originalUrl,bool favorite, Guid? categoryId)
+    public AliasLink(string userId, string aliasUrl, string originalUrl, bool favorite, Guid? categoryId)
     {
         UserId = userId;
         AliasUrl = aliasUrl;
         OriginalUrl = originalUrl;
         Favorite = favorite;
-        CategoryId = categoryId;           
+        CategoryId = categoryId;
     }
 
 
@@ -29,7 +31,7 @@ public sealed class AliasLink : BaseEntity<Guid>
     {
         var link = obj as AliasLink;
 
-        return link is not null 
+        return link is not null
             && link.UserId == UserId
             && link.AliasUrl == AliasUrl;
     }

@@ -64,6 +64,15 @@
   - [x] [Controllers](https://github.com/Grizzly-Alex/Link-Book/tree/feature/clean_architecture/src/Services/Link/Link.API/Controllers)
 
 
+### Unit tests
+For unit tests i used XUnit, Noq and FluentAssertions.
+
+![image](https://github.com/user-attachments/assets/085293fb-4f5f-4c2b-8426-8fa7b42ec7b6)
+
+
+
+
+
 
 
 

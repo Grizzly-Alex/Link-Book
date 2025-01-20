@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
+using Link.Application.Commands;
 using Link.Application.Commands.AliasLinkCommands;
 using Link.Application.Responses;
 using Link.Core.Entities;
+using Link.Core.Entities.Category;
+using Link.Core.Entities.Link;
 using Link.Core.Interfaces;
-using MediatR;
+
 
 namespace Link.Application.Handlers.AliasLinkHandlers;
 
-public sealed class UpdateAliasLinkHandler : IRequestHandler<UpdateAliasLinkCommand, Response>
+internal sealed class UpdateAliasLinkHandler : ICommandHandler<UpdateAliasLinkCommand>
 {
     private readonly IAliasLinkRepository _repository;
     private readonly IAliasCategoryQuery<Guid?> _query;
@@ -20,17 +23,17 @@ public sealed class UpdateAliasLinkHandler : IRequestHandler<UpdateAliasLinkComm
         _mapper = mapper;           
     }
 
-    public async Task<Response> Handle(UpdateAliasLinkCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(UpdateAliasLinkCommand request, CancellationToken cancellationToken)
     {
         if (request.CategoryId is not null)
             if (!await _query.Contains(request.CategoryId, cancellationToken))
-                return new Response(null, false, $"category not found");
+                return Result.Failure(CategoryErrors.NotFound);
 
         var link = _mapper.Map<AliasLink>(request);
 
         if(!await _repository.Update(link, cancellationToken))
-            return new Response(null, false, $"something wrong...");
+            return Result.Failure(LinkErrors.NotFound);
 
-        return new Response(null, true, $"updated successfully");
+        return Result.Success();
     }
 }

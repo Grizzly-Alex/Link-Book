@@ -2,7 +2,8 @@
 using Link.Application.Commands.AliasCategoryCommands;
 using Link.Application.Commands.AliasLinkCommands;
 using Link.Application.Responses;
-using Link.Core.Entities;
+using Link.Core.Entities.Category;
+using Link.Core.Entities.Link;
 
 namespace Link.Application.Utilities;
 

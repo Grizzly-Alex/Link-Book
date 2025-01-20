@@ -1,13 +1,15 @@
 ﻿using AutoMapper;
+using Link.Application.Queries;
 using Link.Application.Queries.AliasLinkQueries;
 using Link.Application.Responses;
 using Link.Core.Entities;
+using Link.Core.Entities.Category;
 using Link.Core.Interfaces;
-using MediatR;
+
 
 namespace Link.Application.Handlers.AliasLinkHandlers;
 
-public sealed class GetAllAliasLinkByCategoryHandler : IRequestHandler<GetAllAliasLinkByCategoryQuery, Response>
+internal sealed class GetAllAliasLinkByCategoryHandler : IQueryHandler<GetAllAliasLinkByCategoryQuery, IList<AliasLinkResponse>>
 {
     private readonly IAliasLinkRepository _repository;
     private IMapper _mapper;
@@ -21,14 +23,16 @@ public sealed class GetAllAliasLinkByCategoryHandler : IRequestHandler<GetAllAli
     }
 
 
-    public async Task<Response> Handle(GetAllAliasLinkByCategoryQuery request, CancellationToken cancellationToken)
+    public async Task<Result<IList<AliasLinkResponse>>> Handle(GetAllAliasLinkByCategoryQuery request, CancellationToken cancellationToken)
     {
-        var userLinks = await _repository.GetAll(
+        var fromDblist = await _repository.GetAll(
             userLink => userLink.CategoryId.Equals(request.CategoryId),
             token: cancellationToken);
 
-        return userLinks.Any()
-            ? new Response(_mapper.Map<IList<AliasLinkResponse>>(userLinks), true, $"list received successfully")
-            : new Response(_mapper.Map<IList<AliasLinkResponse>>(userLinks), false, $"list not found");
+        var responseList = _mapper.Map<IList<AliasLinkResponse>>(fromDblist);
+
+        return responseList.Any()
+            ? Result.Success(responseList)
+            : Result.Failure<IList<AliasLinkResponse>>(CategoryErrors.NotFound);
     }
 }

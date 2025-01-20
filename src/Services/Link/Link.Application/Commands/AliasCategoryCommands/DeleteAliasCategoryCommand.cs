@@ -1,6 +1,3 @@
-﻿using Link.Application.Responses;
-using MediatR;
+﻿namespace Link.Application.Commands.AliasCategoryCommands;
 
-namespace Link.Application.Commands.AliasCategoryCommands;
-
-public record class DeleteAliasCategoryCommand(Guid Id) : IRequest<Response>;
+public record class DeleteAliasCategoryCommand(Guid Id) : ICommand;

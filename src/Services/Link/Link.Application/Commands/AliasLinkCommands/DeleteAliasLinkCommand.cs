@@ -1,7 +1,4 @@
-﻿using Link.Application.Responses;
-using MediatR;
+﻿namespace Link.Application.Commands.AliasLinkCommands;
 
-namespace Link.Application.Commands.AliasLinkCommands;
-
-public record class DeleteAliasLinkCommand(Guid Id) : IRequest<Response>;
+public record class DeleteAliasLinkCommand(Guid Id) : ICommand;
 

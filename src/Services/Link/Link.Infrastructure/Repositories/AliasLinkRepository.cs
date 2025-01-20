@@ -1,4 +1,4 @@
-﻿using Link.Core.Entities;
+﻿using Link.Core.Entities.Link;
 using Link.Core.Interfaces;
 using Link.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +25,7 @@ public class AliasLinkRepository : IAliasLinkRepository
             .AsNoTracking()
             .FirstOrDefaultAsync(predicate, token);
     }
+
     public async Task<IEnumerable<AliasLink>> GetAll(
         Expression<Func<AliasLink, bool>> predicate,
         Func<IQueryable<AliasLink>, IOrderedQueryable<AliasLink>>? orderBy = null,
@@ -47,6 +48,7 @@ public class AliasLinkRepository : IAliasLinkRepository
         return entityFromDb.Entity != null && changes != default 
             ? entityFromDb.Entity : null;
     }
+
     public async Task<bool> Update(AliasLink entity, CancellationToken token = default)
     {
         var rowsUpdated = await _linkTableDb.Where(item => item.Id == entity.Id)
@@ -59,7 +61,6 @@ public class AliasLinkRepository : IAliasLinkRepository
 
         return rowsUpdated != 0;
     }
-
     public async Task<bool> Delete<Guid>(Guid id, CancellationToken token = default)
     {
         var rowsDeleted = await _linkTableDb.Where(item => item.Id.Equals(id))
