@@ -46,6 +46,7 @@ public class GetAliasCategoryHandlerTest
         var result = await handler.Handle(query, default);
 
         // Assert
+        result.IsSuccess.Should().BeFalse();
         result.IsFailure.Should().BeTrue();
         result.Error.Should().Be(CategoryErrors.NotFound);
     }

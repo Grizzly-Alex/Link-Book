@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Link.Application.Queries;
-using Link.Application.Queries.AliasCategoryQueries;
 using Link.Application.Queries.AliasLinkQueries;
 using Link.Application.Responses;
 using Link.Core.Entities;

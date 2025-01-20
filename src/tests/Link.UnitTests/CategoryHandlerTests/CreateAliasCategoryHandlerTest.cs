@@ -7,6 +7,7 @@ using Moq;
 using Xunit;
 using Link.Core.Entities.Category;
 using Link.Application.Utilities;
+using Link.Core.Entities;
 
 namespace Link.UnitTests.CategoryHandlerTests;
 
@@ -46,12 +47,13 @@ public class CreateAliasCategoryHandlerTest
         var result = await handler.Handle(command, default);
 
         // Assert
+        result.IsSuccess.Should().BeFalse();
         result.IsFailure.Should().BeTrue();
         result.Error.Should().Be(CategoryErrors.Conflict);
     }
 
     [Fact]
-    public async Task Handle_Should_ReturnSuccessResult_WhenCategoryIsUniqueForUser()
+    public async Task Handle_Should_ReturnSuccessResult_WhenCategorySuccessfullyСreated()
     {
         // Arrange
         var command = new CreateAliasCategoryCommand(string.Empty, string.Empty);
@@ -79,6 +81,7 @@ public class CreateAliasCategoryHandlerTest
         // Assert
         result.IsSuccess.Should().BeTrue();
         result.IsFailure.Should().BeFalse();
+        result.Error.Should().Be(Error.None);
         result.Value.Should().NotBeNull();
     }
 }

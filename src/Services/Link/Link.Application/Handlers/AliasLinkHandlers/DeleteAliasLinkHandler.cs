@@ -2,6 +2,8 @@
 using Link.Application.Commands.AliasLinkCommands;
 using Link.Application.Responses;
 using Link.Core.Entities;
+using Link.Core.Entities.Category;
+using Link.Core.Entities.Link;
 using Link.Core.Interfaces;
 
 
@@ -18,8 +20,10 @@ internal sealed class DeleteAliasLinkHandler : ICommandHandler<DeleteAliasLinkCo
 
     public async Task<Result> Handle(DeleteAliasLinkCommand request, CancellationToken cancellationToken)
     {
-        var result = await _repository.Delete(request.Id, cancellationToken);
+        var isSuccess = await _repository.Delete(request.Id, cancellationToken);
 
-        return Result.Create(result);
+        return isSuccess
+            ? Result.Success()
+            : Result.Failure(LinkErrors.NotFound);
     }
 }

@@ -3,6 +3,7 @@ using FluentAssertions;
 using Link.Application.Commands.AliasLinkCommands;
 using Link.Application.Handlers.AliasLinkHandlers;
 using Link.Application.Utilities;
+using Link.Core.Entities;
 using Link.Core.Entities.Category;
 using Link.Core.Entities.Link;
 using Link.Core.Interfaces;
@@ -55,13 +56,14 @@ public class CreateAliasLinkHandlerTest
         var result = await handler.Handle(command, default);
 
         // Assert
+        result.IsSuccess.Should().BeFalse();
         result.IsFailure.Should().BeTrue();
         result.Error.Should().Be(CategoryErrors.NotFound);
     }
     
     
     [Fact]
-    public async Task Handle_Should_ReturnSuccessResult_WhenCategorySuccessfullyСreated()
+    public async Task Handle_Should_ReturnSuccessResult_WhenLinkSuccessfullyСreated()
     {
         // Arrange
         var command = new CreateAliasLinkCommand()
@@ -102,6 +104,7 @@ public class CreateAliasLinkHandlerTest
         // Assert
         result.IsSuccess.Should().BeTrue();
         result.IsFailure.Should().BeFalse();
+        result.Error.Should().Be(Error.None);
         result.Value.Should().NotBeNull();
     }
 }
